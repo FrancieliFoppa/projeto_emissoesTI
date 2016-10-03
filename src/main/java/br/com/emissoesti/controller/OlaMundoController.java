@@ -15,9 +15,4 @@ public class OlaMundoController {
 		return "ola";
 	}
 	
-	@RequestMapping("/testeHome")
-	public String HomePage(){
-		return "testeHome";
-	}
-	
 }
