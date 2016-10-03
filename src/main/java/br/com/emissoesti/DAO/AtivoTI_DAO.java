@@ -3,9 +3,7 @@ package br.com.emissoesti.DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import org.springframework.stereotype.Repository;
-
 import br.com.emissoesti.model.AtivoTI;
 
 @Repository
@@ -14,13 +12,9 @@ public class AtivoTI_DAO {
 	private Connection connection;
 	
 	public AtivoTI_DAO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public AtivoTI_DAO() {
+		ConnectionBD connection = new ConnectionBD();
 		try {
-			connection = new Connection();
-			connection.getConnetion();
+			connection.getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

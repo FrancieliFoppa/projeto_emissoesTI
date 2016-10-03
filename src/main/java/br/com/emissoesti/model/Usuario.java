@@ -1,26 +1,25 @@
 package br.com.emissoesti.model;
 
 import java.beans.Transient;
+//import javax.persistence.*;
 
-import javax.persistence.*;
-
-@Entity(name = "usuario")
+//@Entity(name = "usuario")
 public class Usuario {
 
-    @Id
-    @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
+   // @Id
+   // @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
+   // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
     private int codigo;
 
     private String nome;
-    @Column(name = "email", unique = true)
+  //  @Column(name = "email", unique = true)
     private String email;
     private String senha;
 
-    @Transient
+  //  @Transient
     private String repetirSenha;
 
-    @Enumerated(EnumType.STRING)
+  //  @Enumerated(EnumType.STRING)
     private Role role;
 
     public Usuario(String nome, String email, String senha, String repetirSenha, Role role) {

@@ -12,31 +12,28 @@ public class Calculadora_DAO {
 	private Calculadora calc;
 
 	public Calculadora_DAO() {
-		// TODO Auto-generated constructor stub
-	}
-	
-
-	public Calculadora_DAO() {
+		ConnectionBD connection = new ConnectionBD();
 		try {
-			connection = new Connection().getConnection();
+			connection.getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+	/*
 	public void adiciona(Calculadora calc) {
-		String sql = "insert into produto (nome, valor) values (?,?)"; //tabela do banco????
+		String sql = "insert into ativo_ti (nome, valor) values (?,?)"; 
 		PreparedStatement stmt;
 		try {
-			stmt = connection.prepareStatement(sql);
+			System.out.println("TESTE");
+			   //stmt = connection.prepareStatement(sql); ---> classe CONNECTION
 			//stmt.setString(1, ativo.getHostName());
 			//stmt.setDouble(2, ativo.getConsumoEnergia());
 			//stmt.setDouble(2, ativo.getValorEmissaoCO());
 			//stmt.setString(2, ativo.getFabricante());
-			stmt.execute();
+			   //stmt.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-	}
+	}*/
 
 }
