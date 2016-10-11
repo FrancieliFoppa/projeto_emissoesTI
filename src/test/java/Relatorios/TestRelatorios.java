@@ -20,12 +20,13 @@ public class TestRelatorios {
 		
 		ArrayList<AtivoTI> testList = new ArrayList<AtivoTI>();
 		
-		AtivoTI ativoTest = new AtivoTI("NomeTest", "HP", 0.0, 12.3);
-		AtivoTI ativoTest2 = new AtivoTI("NomeTest2", "IBM", 0.0, 45.6);
+		AtivoTI ativoTest = new AtivoTI("NomeTest", "HP", 1.0, 12.3);
+		AtivoTI ativoTest2 = new AtivoTI("NomeTest2", "IBM", 2.0, 45.6);
 		
 		testList.add(ativoTest);
 		testList.add(ativoTest2);
 		
-		testRelatorio.relatorioAtivosConsumoEnergia(testList);		
+		testRelatorio.relatorioAtivosConsumoEnergia(testList);	
+		testRelatorio.relatorioAtivosEmissao(testList);
 	}
 }

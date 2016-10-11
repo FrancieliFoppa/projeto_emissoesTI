@@ -25,9 +25,10 @@ public class Calculadora_Controller extends Calculadora{
 	public ArrayList<AtivoTI> calculaEmissao(double fatorEmissaoCO, ArrayList<AtivoTI> listaDeAtivos){
 			
 		double resultadoEmissao = 0.0;
-		for(int i = 0; i <= (listaDeAtivos.size()+1); i++){
+		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
 			resultadoEmissao = resultadoEmissao + (listaDeAtivos.get(i).getConsumoEnergia() * fatorEmissaoCO);
 			listaDeAtivos.get(i).setValorEmissaoCO(resultadoEmissao);
+			System.out.println("Enissão: " + listaDeAtivos.get(i).getValorEmissaoCO());
 		}
 				
 		return listaDeAtivos;
@@ -40,7 +41,7 @@ public class Calculadora_Controller extends Calculadora{
 	public ArrayList<AtivoTI> calculaCustoEnergia(double taxaEnergia, ArrayList<AtivoTI> listaDeAtivos){
 		
 		double resultadoCustoEnergia = 0.0;
-		for(int i = 0; i <= listaDeAtivos.size(); i++){
+		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
 			resultadoCustoEnergia = resultadoCustoEnergia + (listaDeAtivos.get(i).getConsumoEnergia() * taxaEnergia);
 			listaDeAtivos.get(i).setConsumoEnergia(resultadoCustoEnergia);
 		}

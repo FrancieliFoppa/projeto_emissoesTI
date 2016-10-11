@@ -23,49 +23,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream("C:\\testes\\relatorioEmissaoC02.pdf"));
-			
-			//abri o docuemnto
-			relatorioEmissao.open();
-			
-			//seta tamanho da página do relatório
-			relatorioEmissao.setPageSize(PageSize.A4);
-			
-			//escreve cabeçalho
-			relatorioEmissao.addHeader("", "");
-			
-			//escreve título
-			relatorioEmissao.addTitle("Relatório de Emissões dos Ativos de TI");
-			
-			//escreve paragrafo
-			relatorioEmissao.add(new Paragraph("Lista dos ativos de TI e seus respctivos valores de Emissão de CO²:"));
-			
-			//percorre a lista de ativos
-			for(int i = 0; i <= (listaDeAtivos.size()+1); i++){
-				
-				//escreve no relatório as infromações sobre cada ativo da lista
-				relatorioEmissao.add(new Paragraph("Ativo: " + listaDeAtivos.get(i).getHostName()));
-				relatorioEmissao.add(new Paragraph("Fabricante: " + listaDeAtivos.get(i).getFabricante()));
-				relatorioEmissao.add(new Paragraph("Valor Emissão CO²: " + listaDeAtivos.get(i).getValorEmissaoCO()));
-						
-			}
-			
-		}catch(DocumentException de){
-			System.out.println("Erro ao criar documento");
-		}catch(IOException io){
-			System.out.println("Erro ao abrir documento");
-		}
-		return relatorioEmissao;
-	}
-	
-public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
-		
-		//cria o documento vazio
-		Document relatorioEmissao = new Document();
-		
-		try{
-			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream("C:\\testes\\relatorioConsumoEnergia.pdf"));
+			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream("C:\\testes\\relatorioEmissaoC02IMG2.pdf"));
 			
 			//abri o docuemnto
 			relatorioEmissao.open();
@@ -76,19 +34,81 @@ public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
 			//escreve cabeçalho
 			relatorioEmissao.addHeader("Cabecalho", "Texto Cabeçalho");
 			
+			//cria imagem para o relatório
+			Image logo = Image.getInstance("C:\\testes\\logo.png");
+			
+			//seta o tamanho da imagem
+			logo.scaleToFit(150, 40);
+			
+			//adiciona a imagem ao relatório
+			relatorioEmissao.add(logo);
+			
 			//escreve título
 			relatorioEmissao.addTitle("Relatório de Emissões dos Ativos de TI");
 			
 			//escreve paragrafo
-			relatorioEmissao.add(new Paragraph("Lista dos ativos de TI e seus respctivos valores de consumo de energia:"));
+			relatorioEmissao.add(new Paragraph("Lista dos ativos de TI e seus respctivos valores de Emissão de CO²:"));
 			
 			//percorre a lista de ativos
-			for(int i = 0; i <= listaDeAtivos.size(); i++){
+			for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
 				
 				//escreve no relatório as infromações sobre cada ativo da lista
 				relatorioEmissao.add(new Paragraph("Ativo: " + listaDeAtivos.get(i).getHostName()));
 				relatorioEmissao.add(new Paragraph("Fabricante: " + listaDeAtivos.get(i).getFabricante()));
-				relatorioEmissao.add(new Paragraph("Valor Consumo Energia: " + listaDeAtivos.get(i).getConsumoEnergia()));
+				relatorioEmissao.add(new Paragraph("Valor Emissão CO²: " + listaDeAtivos.get(i).getValorEmissaoCO()));
+						
+			}
+			
+		}catch(DocumentException de){
+			System.out.println("Erro ao abrir documento");
+		}catch(IOException io){
+			System.out.println("Erro ao criar documento");
+		}finally{
+			relatorioEmissao.close();
+		}
+		return relatorioEmissao;
+	}
+	
+public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
+		
+		//cria o documento vazio
+		Document relatorioConsumo = new Document();
+		
+		try{
+			//cria uma instacia do documento com nome e diretorio destino
+			PdfWriter.getInstance(relatorioConsumo, new FileOutputStream("C:\\testes\\relatorioConsumoEnergiaIMG2.pdf"));
+			
+			//abri o docuemnto
+			relatorioConsumo.open();
+			
+			//seta tamanho da página do relatório
+			relatorioConsumo.setPageSize(PageSize.A4);
+			
+			//escreve cabeçalho
+			relatorioConsumo.addHeader("Cabecalho", "Texto Cabeçalho");
+			
+			//cria imagem para o relatório
+			Image logo = Image.getInstance("C:\\testes\\logo.png");
+			
+			//seta o tamanho da imagem
+			logo.scaleToFit(150, 40);
+			
+			//adiciona a imagem ao relatório
+			relatorioConsumo.add(logo);
+			
+			//escreve título
+			relatorioConsumo.addTitle("Relatório de Emissões dos Ativos de TI");
+			
+			//escreve paragrafo
+			relatorioConsumo.add(new Paragraph("Lista dos ativos de TI e seus respctivos valores de consumo de energia:"));
+			
+			//percorre a lista de ativos
+			for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
+				
+				//escreve no relatório as infromações sobre cada ativo da lista
+				relatorioConsumo.add(new Paragraph("Ativo: " + listaDeAtivos.get(i).getHostName()));
+				relatorioConsumo.add(new Paragraph("Fabricante: " + listaDeAtivos.get(i).getFabricante()));
+				relatorioConsumo.add(new Paragraph("Valor Consumo Energia: " + listaDeAtivos.get(i).getConsumoEnergia()));
 						
 			}
 			
@@ -96,8 +116,10 @@ public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
 			System.out.println("Erro ao criar documento");
 		}catch(IOException io){
 			System.out.println("Erro ao abrir documento");
+		}finally{
+			relatorioConsumo.close();
 		}
-		return relatorioEmissao;
+		return relatorioConsumo;
 	}
 
 }
