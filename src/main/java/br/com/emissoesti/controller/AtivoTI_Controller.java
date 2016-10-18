@@ -34,11 +34,12 @@ public class AtivoTI_Controller {
 	 * método lê as linhas de um arquivo CSV
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
+	@SuppressWarnings("hiding")
 	@RequestMapping //(chamar a view)
-	public void processaCSV(String path){
-
-		//instancia o ativoTI
-		AtivoTI ativoTI = new AtivoTI();
+	public ArrayList<AtivoTI> processaCSV(String path){
+		
+		//instancia uma lista de ativos
+		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
 		
 		//cria variavel do tipo File
 		File arquivoCSV;
@@ -54,8 +55,13 @@ public class AtivoTI_Controller {
 			
 			//le cada linha do arquivo
 			while(leitor.hasNext()){
-
+				
+				//instancia o ativoTI
+				AtivoTI ativoTI = new AtivoTI();
+				
+				//próxima linha do arquivo
 				linhasArquivo = leitor.nextLine();
+				
 				//salva cada campo separado por ponto e virgula em um array
 				String valores[] = linhasArquivo.split(";");
 					
@@ -63,12 +69,11 @@ public class AtivoTI_Controller {
 					ativoTI.setHostName(valores[0]);
 					ativoTI.setFabricante(valores[1]);
 					ativoTI.setConsumoEnergia(Double.parseDouble(valores[2]));
+					
+					listaAtivos.add(ativoTI);
 				
-					System.out.println(" nome: " + ativoTI.getHostName() +" Frabricante: " +  ativoTI.getFabricante() + " Conumo: " + ativoTI.getConsumoEnergia());
-				
-				//registrar no banco
-				//this.registra(ativoTI);
-				
+					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Consumo: " + ativoTI.getConsumoEnergia());
+								
 			}	
 			//fecha o Scanner
 			leitor.close();
@@ -78,6 +83,10 @@ public class AtivoTI_Controller {
         }catch(java.io.IOException es){
          System.out.println("Erro ao abrir o arquivo");
         }
+		//registrar no banco
+		this.registra(listaAtivos);
+		
+		return listaAtivos;
 	}
 	
 	/*
@@ -85,12 +94,12 @@ public class AtivoTI_Controller {
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
 	@RequestMapping //(chamar a view)
-	public void processaXML(String path){
+	public ArrayList<AtivoTI> processaXML(String path){
 		
 		//instancia o ativoTI
 		AtivoTI ativoTI = new AtivoTI();
 		
-		ArrayList<AtivoTI> listaAtivos;
+		ArrayList<AtivoTI> listaAtivos = null;
 		
 		try{
 			
@@ -125,8 +134,10 @@ public class AtivoTI_Controller {
 					//salvar os elementos como obejtos AtivoTI
 					listaAtivos.add(ativoTI);
 					
+					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Consumo: " + ativoTI.getConsumoEnergia());
+					
 					//registrar no banco
-					//this.registra(ativoTI);
+					this.registra(listaAtivos);
 				}
 			}
 		}catch(ParserConfigurationException ex){
@@ -136,24 +147,36 @@ public class AtivoTI_Controller {
 		}catch(SAXException sx){
 			System.out.println("Erro ao criar XML");
 		}
+		return listaAtivos;
 	}
 	
 	
 	//registra um ativo de TI
 	@RequestMapping("/registraAtivoTI")
-	public String registra(@Validated AtivoTI ativoTI, BindingResult validacao){
-		System.out.println(ativoTI.getHostName());
+	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao){
+		//System.out.println(ativoTI.getHostName());
 		if (validacao.hasErrors()) {
 			return "ativo_novo";
 		}else{
-			this.ativoDAO.adiciona(ativoTI);
+			this.ativoDAO.adiciona(ativoTIList);
 			return "ativo_sucesso";
 		}
 	}
 
 	//sobrecarga do método registra
-	private String registra(AtivoTI ativoTI){
-		this.ativoDAO.adiciona(ativoTI);
+	private String registra(ArrayList<AtivoTI> ativoTIList){
+		this.ativoDAO.adiciona(ativoTIList);
 		return "ativo_sucesso";
 	}
+	
+	
+	//método busca o ativo com maior consumo de energia
+	public AtivoTI retornaMaior(){
+		
+		this.ativoDAO.retornaMaxAtivo();
+		
+		return null;
+		
+	}
+
 }
