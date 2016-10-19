@@ -2,6 +2,7 @@ package br.com.emissoesti.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,7 +37,7 @@ public class AtivoTI_Controller {
 	 */
 	@SuppressWarnings("hiding")
 	@RequestMapping //(chamar a view)
-	public ArrayList<AtivoTI> processaCSV(String path){
+	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException{
 		
 		//instancia uma lista de ativos
 		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
@@ -94,7 +95,7 @@ public class AtivoTI_Controller {
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
 	@RequestMapping //(chamar a view)
-	public ArrayList<AtivoTI> processaXML(String path){
+	public ArrayList<AtivoTI> processaXML(String path) throws SQLException{
 		
 		//instancia o ativoTI
 		AtivoTI ativoTI = new AtivoTI();
@@ -153,7 +154,7 @@ public class AtivoTI_Controller {
 	
 	//registra um ativo de TI
 	@RequestMapping("/registraAtivoTI")
-	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao){
+	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException{
 		//System.out.println(ativoTI.getHostName());
 		if (validacao.hasErrors()) {
 			return "ativo_novo";
@@ -164,7 +165,7 @@ public class AtivoTI_Controller {
 	}
 
 	//sobrecarga do método registra
-	private String registra(ArrayList<AtivoTI> ativoTIList){
+	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException{
 		this.ativoDAO.adiciona(ativoTIList);
 		return "ativo_sucesso";
 	}
