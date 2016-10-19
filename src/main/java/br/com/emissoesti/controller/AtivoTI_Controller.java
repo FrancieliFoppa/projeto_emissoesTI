@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
+import br.com.emissoesti.model.Usuario;
 
 @ControllerAdvice
 public class AtivoTI_Controller {
@@ -170,14 +171,17 @@ public class AtivoTI_Controller {
 		return "ativo_sucesso";
 	}
 	
-	
 	//método busca o ativo com maior consumo de energia
-	public AtivoTI retornaMaior(){
-		
+	@RequestMapping("/maiorAtivoTI")
+	public String retornaMaior(){
 		this.ativoDAO.retornaMaxAtivo();
-		
-		return null;
-		
+		return ""; //view ou relatório?
 	}
-
+	
+	@RequestMapping("/buscaListaAtivoTI")
+	public String RetornaListaAtivo(Usuario codigoUsuario) throws SQLException{
+		this.ativoDAO.listaAtivo(codigoUsuario);
+		return "";	//view ou relatório?
+	}
+	
 }

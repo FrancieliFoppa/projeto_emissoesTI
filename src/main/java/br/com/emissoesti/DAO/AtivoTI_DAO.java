@@ -54,7 +54,7 @@ public class AtivoTI_DAO {
 	}
 	
 	/*
-	 * Listar ativoTI
+	 * Método busca do banco de dados MySql uma lista de objetos do tipo AtivoTI e seus respectivos atributos
 	 */
 	public ArrayList<AtivoTI> listaAtivo(Usuario codigoUsuario) throws SQLException {
 			
@@ -98,11 +98,15 @@ public class AtivoTI_DAO {
 	}
 		
 	
-	//select MAX(consumo_energia_ativo)
+	/*
+	 * select MAX(consumo_energia_ativo)
+	 */
 	public AtivoTI retornaMaxAtivo(){
 		
+		AtivoTI MaiorAtivo = new AtivoTI();
 		
+		//select MAX(consumo_energia_ativo)
 		
-		return null;
+		return MaiorAtivo;
 	}
 }
