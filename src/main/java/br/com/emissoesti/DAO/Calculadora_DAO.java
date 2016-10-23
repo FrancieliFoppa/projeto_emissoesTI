@@ -11,13 +11,9 @@ public class Calculadora_DAO {
 	
 	private Calculadora calc;
 
-	public Calculadora_DAO() {
+	public Calculadora_DAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		ConnectionBD connection = new ConnectionBD();
-		try {
-			connection.getConnection();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+		connection.conectar();
 	}
 	/*
 	public void adiciona(Calculadora calc) {

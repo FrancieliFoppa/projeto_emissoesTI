@@ -8,7 +8,6 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,10 +17,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
-import br.com.emissoesti.model.Usuario;
 
 @ControllerAdvice
 public class AtivoTI_Controller {
@@ -38,7 +35,7 @@ public class AtivoTI_Controller {
 	 */
 	@SuppressWarnings("hiding")
 	@RequestMapping //(chamar a view)
-	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException{
+	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		//instancia uma lista de ativos
 		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
@@ -96,14 +93,19 @@ public class AtivoTI_Controller {
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
 	@RequestMapping //(chamar a view)
-	public ArrayList<AtivoTI> processaXML(String path) throws SQLException{
+	public ArrayList<AtivoTI> processaXML(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		//instancia o ativoTI
-		AtivoTI ativoTI = new AtivoTI();
+		AtivoTI ativoTI;
 		
 		ArrayList<AtivoTI> listaAtivos = null;
 		
 		try{
+			
+			ativoTI = new AtivoTI();
+			
+			//instacia um array de objetos ativoTI
+			listaAtivos = new ArrayList<AtivoTI>();
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -111,36 +113,65 @@ public class AtivoTI_Controller {
 			//cria o documento XML
 			Document arquivoXML = builder.parse(path);
 			
-			//instacia um array de objetos ativoTI
-			listaAtivos = new ArrayList<AtivoTI>();
-			
 			//instacia um NodeList para salvar os dados do xml
 			NodeList infAtivos = arquivoXML.getElementsByTagName("ativoTI");
 			
 			//percorre o NodeList e salva no array de ativosTI
 			for(int i = 0; i <= infAtivos.getLength(); i++){
 				
-				Node nodoAtivo = infAtivos.item(i);
+				Node noAtivo = infAtivos.item(i);
 				
-				//valida se o nodo não é apenas texto
-				if(nodoAtivo.getNodeType() == Node.ELEMENT_NODE){
+				//valida se o nodo é do tipo element
+				if(noAtivo.getNodeType() == Node.ELEMENT_NODE){
 					
 					//transforma o nodo em elemento
-					Element elementoAtivoTI = (Element) nodoAtivo;
+					Element elementoAtivoTI = (Element) noAtivo;
 					
-					//seta os parâmetros da classe AtivoTI com os dados vindos do XML
-					ativoTI.setHostName(elementoAtivoTI.getAttribute("nome"));
-					ativoTI.setFabricante(elementoAtivoTI.getAttribute("fabricante"));
-					ativoTI.setConsumoEnergia(Double.parseDouble(elementoAtivoTI.getAttribute("consumoEnergia")));
+					NodeList atributosAtivoFilho = elementoAtivoTI.getChildNodes();
 					
-					//salvar os elementos como obejtos AtivoTI
-					listaAtivos.add(ativoTI);
+					for(int j = 0; j <= atributosAtivoFilho.getLength(); j++){
+						
+						Node noAtivoFilho = atributosAtivoFilho.item(j);
+						
+						if(noAtivoFilho.getNodeType() == Node.ELEMENT_NODE){
+							 
+							Element elementoFilho = (Element) noAtivoFilho;
+							
+							//seta os parâmetros da classe AtivoTI com os dados vindos do XML
+							if(elementoFilho.getTagName() == "nome"){
+								ativoTI.setHostName(elementoFilho.getTextContent());
+								System.out.println("Nome: " + elementoFilho.getTextContent());
+							}
+							else{
+								System.out.println("O nome da TAG esperada é: nome");
+							}
+							
+							if(elementoFilho.getTagName() == "fabricante"){
+								ativoTI.setFabricante(elementoFilho.getTextContent());
+								System.out.println("Nome: " + elementoFilho.getTextContent());
+							}
+							else{
+								System.out.println("O nome da TAG esperada é: fabricante");
+							}
+							
+							if(elementoFilho.getTagName() == "consumoEnergia"){
+								ativoTI.setConsumoEnergia(Double.parseDouble(elementoFilho.getTextContent()));
+								System.out.println("Nome: " + elementoFilho.getTextContent());
+							}
+							else{
+								System.out.println("O nome da TAG esperada é: consumoEnergia");
+							}
+								
+							//salvar os elementos como obejtos AtivoTI
+							listaAtivos.add(ativoTI);
 					
-					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Consumo: " + ativoTI.getConsumoEnergia());
-					
-					//registrar no banco
-					this.registra(listaAtivos);
+						}						
+						//registrar no banco
+						this.registra(listaAtivos);
+					}
+						
 				}
+					
 			}
 		}catch(ParserConfigurationException ex){
 			System.out.println("Erro...");
@@ -149,13 +180,14 @@ public class AtivoTI_Controller {
 		}catch(SAXException sx){
 			System.out.println("Erro ao criar XML");
 		}
-		return listaAtivos;
+		//return listaAtivos;
+		return null;
 	}
 	
 	
 	//registra um ativo de TI
 	@RequestMapping("/registraAtivoTI")
-	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException{
+	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		//System.out.println(ativoTI.getHostName());
 		if (validacao.hasErrors()) {
 			return "ativo_novo";
@@ -166,7 +198,7 @@ public class AtivoTI_Controller {
 	}
 
 	//sobrecarga do método registra
-	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException{
+	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		this.ativoDAO.adiciona(ativoTIList);
 		return "ativo_sucesso";
 	}
@@ -177,11 +209,11 @@ public class AtivoTI_Controller {
 		this.ativoDAO.retornaMaxAtivo();
 		return ""; //view ou relatório?
 	}
-	
+	/*
 	@RequestMapping("/buscaListaAtivoTI")
 	public String RetornaListaAtivo(Usuario codigoUsuario) throws SQLException{
 		this.ativoDAO.listaAtivo(codigoUsuario);
 		return "";	//view ou relatório?
 	}
-	
+	*/
 }

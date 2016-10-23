@@ -16,6 +16,10 @@ public class Relatorios_Controller extends Relatorios{
 		// TODO Auto-generated constructor stub
 	}
 	
+	/*
+	 * Método gera um relatório em PDF com as informaões dos ativos de TI e suas respectivas
+	 *  quantidades de emissão CO²
+	 */
 	public Document relatorioAtivosEmissao(ArrayList<AtivoTI> listaDeAtivos){
 		
 		//cria o documento vazio
@@ -69,7 +73,11 @@ public class Relatorios_Controller extends Relatorios{
 		return relatorioEmissao;
 	}
 	
-public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
+	/*
+	 * Método gera um relatório em PDF com as informaões dos ativos de TI e seus respectivos
+	 *  cosumos de energia
+	 */
+	public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
 		
 		//cria o documento vazio
 		Document relatorioConsumo = new Document();
@@ -120,6 +128,18 @@ public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
 			relatorioConsumo.close();
 		}
 		return relatorioConsumo;
+	}
+
+	/*
+	 * Método gera um relatório em PDF contendo propostas de mudanças e sugestões de melhorias 
+	 * relacionadas aos ativos de uma determinado usuário/empresa a partir do conhecimento obtido
+	 * na base de dados, contendo também os resultados a serem obtidos com a aplicação destas mudanças
+	 */
+	public Document relatorioPropostasResultados(ArrayList<AtivoTI> listaDeAtivos){
+		
+		
+		return null;
+		
 	}
 
 }

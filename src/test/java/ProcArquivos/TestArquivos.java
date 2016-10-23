@@ -10,14 +10,14 @@ import junit.framework.TestCase;
 public class TestArquivos extends TestCase {
 
 	@Test
-	public void test() throws SQLException {
+	public void test() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		
 		AtivoTI_Controller testAtivo = new AtivoTI_Controller();
 		
 		testAtivo.processaCSV("C:\\arquivoCSV.csv");
 		//assertNotNull(testAtivo.registra(ativoTI, validacao));	
 		
-		testAtivo.processaXML("C:\\arquivoXML.xml");
+		//testAtivo.processaXML("C:\\testes\\arquivoXML.xml");
 	}
 	
 }
