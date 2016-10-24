@@ -14,8 +14,6 @@ public class AtivoTI_DAO {
 
 	private Connection connection;
 	
-	
-	
 	public AtivoTI_DAO(Connection connection) {
 		try {
 			connection = new ConnectionBD().getConnection();

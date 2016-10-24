@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Controller;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 import br.com.emissoesti.model.Relatorios;
 
@@ -135,11 +137,52 @@ public class Relatorios_Controller extends Relatorios{
 	 * relacionadas aos ativos de uma determinado usuário/empresa a partir do conhecimento obtido
 	 * na base de dados, contendo também os resultados a serem obtidos com a aplicação destas mudanças
 	 */
-	public Document relatorioPropostasResultados(ArrayList<AtivoTI> listaDeAtivos){
+	public Document relatorioPropostasResultados(){
 		
+		//cria o documento vazio
+		Document relatorioPropostasResultados = new Document();
+		AtivoTI_DAO consultaAtivo = new AtivoTI_DAO(null);
 		
-		return null;
-		
+		try{
+			//cria uma instacia do documento com nome e diretorio destino
+			PdfWriter.getInstance(relatorioPropostasResultados, new FileOutputStream("C:\\testes\\relatorioPropostasResultados.pdf"));
+			
+			//abri o docuemnto
+			relatorioPropostasResultados.open();
+			
+			//seta tamanho da página do relatório
+			relatorioPropostasResultados.setPageSize(PageSize.A4);
+			
+			//escreve cabeçalho
+			relatorioPropostasResultados.addHeader("Cabecalho", "Texto Cabeçalho");
+			
+			//cria imagem para o relatório
+			Image logo = Image.getInstance("C:\\testes\\logo.png");
+			
+			//seta o tamanho da imagem
+			logo.scaleToFit(150, 40);
+			
+			//adiciona a imagem ao relatório
+			relatorioPropostasResultados.add(logo);
+			
+			//escreve título
+			relatorioPropostasResultados.addTitle("Prosposta de melhoria no ambiente de ativos");
+			
+			//escreve paragrafo
+			relatorioPropostasResultados.add(new Paragraph("Sugestão de Ativo cujo consumo de energia está abaixo:"));
+				
+			//escreve no relatório as infromações sobre cada ativo da lista
+			relatorioPropostasResultados.add((Element) consultaAtivo.retornaMinAtivo());	
+						
+			
+		}catch(DocumentException de){
+			System.out.println("Erro ao criar documento");
+		}catch(IOException io){
+			System.out.println("Erro ao abrir documento");
+		}finally{
+			relatorioPropostasResultados.close();
+		}
+		return relatorioPropostasResultados;
 	}
 
 }
