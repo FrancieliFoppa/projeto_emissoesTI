@@ -27,6 +27,7 @@ public class AtivoTI_Controller {
 
 	public AtivoTI_Controller() {
 		// TODO Auto-generated constructor stub
+		ativoDAO = new AtivoTI_DAO();
 	}
 	
 	/*

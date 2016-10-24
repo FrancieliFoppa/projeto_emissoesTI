@@ -141,7 +141,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		//cria o documento vazio
 		Document relatorioPropostasResultados = new Document();
-		AtivoTI_DAO consultaAtivo = new AtivoTI_DAO(null);
+		AtivoTI_DAO consultaAtivo = new AtivoTI_DAO();
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino

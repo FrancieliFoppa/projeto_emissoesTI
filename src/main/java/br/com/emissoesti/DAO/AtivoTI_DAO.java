@@ -14,9 +14,9 @@ public class AtivoTI_DAO {
 
 	private Connection connection;
 	
-	public AtivoTI_DAO(Connection connection) {
+	public AtivoTI_DAO() {
 		try {
-			connection = new ConnectionBD().getConnection();
+			this.connection = new ConnectionBD().getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
