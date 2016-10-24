@@ -1,19 +1,19 @@
 package br.com.emissoesti.DAO;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import br.com.emissoesti.model.AtivoTI;
 import br.com.emissoesti.model.Calculadora;
 
 public class Calculadora_DAO {
 	
 	private Calculadora calc;
 
-	public Calculadora_DAO() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		ConnectionBD connection = new ConnectionBD();
-		connection.conectar();
+	public Calculadora_DAO(Connection connection) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		try {
+			connection = new ConnectionBD().getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	/*
 	public void adiciona(Calculadora calc) {

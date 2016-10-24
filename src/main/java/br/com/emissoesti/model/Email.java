@@ -17,7 +17,7 @@ import javax.servlet.http.*;
 			 
 				String to = req.getParameter("to");
 				 
-				String from = "teste@dominio.com.br";
+				String from = "emissoesti@gmail.com.br";
 				 
 				Properties props = new Properties();
 				props.put("mail.smtp.host", "localhost");
@@ -31,7 +31,7 @@ import javax.servlet.http.*;
 				 
 				message.setSubject("teste de envio de e-mails");
 				 
-				message.setContent("este eh um teste de envio", "text/plain");
+				message.setContent("este e um teste de envio", "text/plain");
 				 
 				Transport.send(message);
 				 
