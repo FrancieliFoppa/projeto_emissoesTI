@@ -91,7 +91,12 @@ public class AtivoTI_Controller {
 	
 	/*
 	 * método lê as linhas de um arquivo XML
-	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
+	 * layout do arquivo -> <ativos>
+			<ativoTI>
+				<nome></nome>
+				<fabricante></fabricante>
+				<consumoEnergia></consumoEnergia>
+			</ativoTI>
 	 */
 	@RequestMapping //(chamar a view)
 	public ArrayList<AtivoTI> processaXML(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
