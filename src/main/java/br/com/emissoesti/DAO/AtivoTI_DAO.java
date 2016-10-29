@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import org.springframework.stereotype.Repository;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import br.com.emissoesti.model.AtivoTI;
 import br.com.emissoesti.model.Usuario;
 
-@Repository
+//@Path("/") ??
 public class AtivoTI_DAO {
 
 	private Connection connection;
@@ -26,6 +29,9 @@ public class AtivoTI_DAO {
 	/*
 	 * Método insere no banco de dados MySql uma lista de objetos do tipo AtivoTI e seus respectivos atributos
 	 */
+	@POST	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public void adiciona(ArrayList<AtivoTI> ativoList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		String sql = "insert intO ativo_ti"
@@ -61,6 +67,9 @@ public class AtivoTI_DAO {
 	/*
 	 * Método busca do banco de dados MySql uma lista de objetos do tipo AtivoTI e seus respectivos atributos
 	 */
+	@POST	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<AtivoTI> listaAtivo(Usuario codigoUsuario) throws SQLException {
 			
 		ResultSet res = null;	
@@ -106,6 +115,9 @@ public class AtivoTI_DAO {
 	 * método retorna o ativo de TI que possui maior consumo de energia, e consequentemente
 	 * maior emissão de CO², independente do usuário/empresa 
 	 */
+	@POST	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public AtivoTI retornaMaxAtivo(){
 		
 		AtivoTI MaiorConsumoAtivo = new AtivoTI();
@@ -119,6 +131,9 @@ public class AtivoTI_DAO {
 	 * método retorna o ativo de TI que possui menor consumo de energia, e consequentemente
 	 * menor emissão de CO², independente do usuário/empresa 
 	 */
+	@POST	
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public AtivoTI retornaMinAtivo(){
 		
 		AtivoTI MenorConsumoAtivo = new AtivoTI();

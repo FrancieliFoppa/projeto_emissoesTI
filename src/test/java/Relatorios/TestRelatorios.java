@@ -1,17 +1,11 @@
 package Relatorios;
 
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import br.com.emissoesti.controller.Relatorios_Controller;
 import br.com.emissoesti.model.AtivoTI;
 
 public class TestRelatorios {
-
-	public TestRelatorios() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Test
 	public void test() {

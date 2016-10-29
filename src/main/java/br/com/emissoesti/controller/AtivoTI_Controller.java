@@ -5,28 +5,29 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 
-@ControllerAdvice
+@Path("/ativoti")
 public class AtivoTI_Controller {
 	
 	private AtivoTI_DAO ativoDAO;
 
 	public AtivoTI_Controller() {
-		// TODO Auto-generated constructor stub
 		ativoDAO = new AtivoTI_DAO();
 	}
 	
@@ -34,8 +35,10 @@ public class AtivoTI_Controller {
 	 * método lê as linhas de um arquivo CSV
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
-	@SuppressWarnings("hiding")
-	@RequestMapping //(chamar a view)
+	//---->(chamar a view)
+	@GET
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
 	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		//instancia uma lista de ativos
@@ -98,7 +101,10 @@ public class AtivoTI_Controller {
 				<consumoEnergia></consumoEnergia>
 			</ativoTI>
 	 */
-	@RequestMapping //(chamar a view)
+	 //----->(chamar a view)
+	@GET
+	@Consumes(MediaType.APPLICATION_ATOM_XML)
+	@Produces(MediaType.TEXT_PLAIN)
 	public ArrayList<AtivoTI> processaXML(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		//instancia o ativoTI
@@ -191,9 +197,9 @@ public class AtivoTI_Controller {
 	}
 	
 	
-	//registra um ativo de TI
-	@RequestMapping("/registraAtivoTI")
-	public String registra(@Validated ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+	/*//registra um ativo de TI
+	("/registraAtivoTI")
+	public String registra(ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		//System.out.println(ativoTI.getHostName());
 		if (validacao.hasErrors()) {
 			return "ativo_novo";
@@ -201,7 +207,7 @@ public class AtivoTI_Controller {
 			this.ativoDAO.adiciona(ativoTIList);
 			return "ativo_sucesso";
 		}
-	}
+	}*/
 
 	//sobrecarga do método registra
 	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
@@ -210,7 +216,7 @@ public class AtivoTI_Controller {
 	}
 	
 	//método busca o ativo com maior consumo de energia
-	@RequestMapping("/maiorAtivoTI")
+	//("/maiorAtivoTI")
 	public String retornaMaior(){
 		this.ativoDAO.retornaMaxAtivo();
 		return ""; //view ou relatório?

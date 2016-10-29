@@ -1,6 +1,5 @@
 package br.com.emissoesti.model;
 
-import java.beans.Transient;
 //import javax.persistence.*;
 
 //@Entity(name = "usuario")

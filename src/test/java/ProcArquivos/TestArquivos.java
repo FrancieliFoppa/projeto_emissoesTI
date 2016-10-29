@@ -3,7 +3,6 @@ package ProcArquivos;
 import java.sql.SQLException;
 
 import org.junit.Test;
-
 import br.com.emissoesti.controller.AtivoTI_Controller;
 import junit.framework.TestCase;
 

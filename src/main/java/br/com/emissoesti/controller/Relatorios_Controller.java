@@ -3,15 +3,26 @@ package br.com.emissoesti.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import org.springframework.stereotype.Controller;
-import com.itextpdf.text.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 import br.com.emissoesti.model.Relatorios;
 
-@Controller
+@Path("/relatorios")
 public class Relatorios_Controller extends Relatorios{
 
 	public Relatorios_Controller() {
@@ -22,14 +33,20 @@ public class Relatorios_Controller extends Relatorios{
 	 * Método gera um relatório em PDF com as informaões dos ativos de TI e suas respectivas
 	 *  quantidades de emissão CO²
 	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces("application/pdf")
 	public Document relatorioAtivosEmissao(ArrayList<AtivoTI> listaDeAtivos){
 		
 		//cria o documento vazio
 		Document relatorioEmissao = new Document();
 		
+		//busca o diretorio para salvar o PDF na maquina do usuário
+		String path = System.getProperty("user.home") + System.getProperty("file.separator");
+		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream("C:\\testes\\relatorioEmissaoC02IMG2.pdf"));
+			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream(path + "\\testePDF.pdf"));
 			
 			//abri o docuemnto
 			relatorioEmissao.open();
@@ -79,14 +96,20 @@ public class Relatorios_Controller extends Relatorios{
 	 * Método gera um relatório em PDF com as informaões dos ativos de TI e seus respectivos
 	 *  cosumos de energia
 	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces("application/pdf")
 	public Document relatorioAtivosConsumoEnergia(ArrayList<AtivoTI> listaDeAtivos){
 		
 		//cria o documento vazio
 		Document relatorioConsumo = new Document();
 		
+		//busca o diretorio para salvar o PDF na maquina do usuário
+		String path = System.getProperty("user.home") + System.getProperty("file.separator");
+		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioConsumo, new FileOutputStream("C:\\testes\\relatorioConsumoEnergiaIMG2.pdf"));
+			PdfWriter.getInstance(relatorioConsumo, new FileOutputStream(path + "\\testePDF.pdf"));
 			
 			//abri o docuemnto
 			relatorioConsumo.open();
@@ -141,11 +164,15 @@ public class Relatorios_Controller extends Relatorios{
 		
 		//cria o documento vazio
 		Document relatorioPropostasResultados = new Document();
+		
+		//busca o diretorio para salvar o PDF na maquina do usuário
+		String path = System.getProperty("user.home") + System.getProperty("file.separator");
+		
 		AtivoTI_DAO consultaAtivo = new AtivoTI_DAO();
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioPropostasResultados, new FileOutputStream("C:\\testes\\relatorioPropostasResultados.pdf"));
+			PdfWriter.getInstance(relatorioPropostasResultados, new FileOutputStream(path + "\\PropostasResultados.pdf"));
 			
 			//abri o docuemnto
 			relatorioPropostasResultados.open();
