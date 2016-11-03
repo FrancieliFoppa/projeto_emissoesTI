@@ -160,6 +160,9 @@ public class Relatorios_Controller extends Relatorios{
 	 * relacionadas aos ativos de uma determinado usuário/empresa a partir do conhecimento obtido
 	 * na base de dados, contendo também os resultados a serem obtidos com a aplicação destas mudanças
 	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces("application/pdf")
 	public Document relatorioPropostasResultados(){
 		
 		//cria o documento vazio

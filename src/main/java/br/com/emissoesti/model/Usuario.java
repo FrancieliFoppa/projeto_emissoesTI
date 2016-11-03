@@ -5,9 +5,9 @@ package br.com.emissoesti.model;
 //@Entity(name = "usuario")
 public class Usuario {
 
-   // @Id
-   // @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
-   // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
+   //@Id
+   //@SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
+   //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
     private int codigo;
 
     private String nome;

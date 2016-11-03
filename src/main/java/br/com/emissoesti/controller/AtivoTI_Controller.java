@@ -1,24 +1,18 @@
 package br.com.emissoesti.controller;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 
@@ -36,7 +30,7 @@ public class AtivoTI_Controller {
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
 	//---->(chamar a view)
-	@GET
+	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
 	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
@@ -83,8 +77,6 @@ public class AtivoTI_Controller {
 			
 		}catch(java.io.FileNotFoundException x){
          System.out.println("O arquivo não existe");
-        }catch(java.io.IOException es){
-         System.out.println("Erro ao abrir o arquivo");
         }
 		//registrar no banco
 		this.registra(listaAtivos);
@@ -96,118 +88,39 @@ public class AtivoTI_Controller {
 	 * método lê as linhas de um arquivo XML
 	 * layout do arquivo -> <ativos>
 			<ativoTI>
-				<nome></nome>
+				<hostName></hostName>
 				<fabricante></fabricante>
 				<consumoEnergia></consumoEnergia>
 			</ativoTI>
 	 */
 	 //----->(chamar a view)
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_ATOM_XML)
 	@Produces(MediaType.TEXT_PLAIN)
-	public ArrayList<AtivoTI> processaXML(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public ArrayList<AtivoTI> processaXML(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		
-		//instancia o ativoTI
-		AtivoTI ativoTI;
-		
-		ArrayList<AtivoTI> listaAtivos = null;
+		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
 		
 		try{
+			FileReader reader = new FileReader(path);
+			//instacia um obejto do tipo XStrem
+			XStream xstream = new XStream(new DomDriver());
+			//procura a tag ativoTI
+			xstream.alias("ativoTI", AtivoTI.class);
+			//atribui os atributos da tag ao objeto ativoTI
+			AtivoTI ativoTI = (AtivoTI) xstream.fromXML(reader);
+			//adiciona o obejto a lista
+			listaAtivos.add(ativoTI);
 			
-			ativoTI = new AtivoTI();
+			System.out.println("Nome: " + ativoTI.getHostName() + "Fabricante: " + ativoTI.getFabricante() + "Consumo Energia: " + ativoTI.getConsumoEnergia());
 			
-			//instacia um array de objetos ativoTI
-			listaAtivos = new ArrayList<AtivoTI>();
+			registra(listaAtivos);
 			
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			
-			//cria o documento XML
-			Document arquivoXML = builder.parse(path);
-			
-			//instacia um NodeList para salvar os dados do xml
-			NodeList infAtivos = arquivoXML.getElementsByTagName("ativoTI");
-			
-			//percorre o NodeList e salva no array de ativosTI
-			for(int i = 0; i <= infAtivos.getLength(); i++){
-				
-				Node noAtivo = infAtivos.item(i);
-				
-				//valida se o nodo é do tipo element
-				if(noAtivo.getNodeType() == Node.ELEMENT_NODE){
-					
-					//transforma o nodo em elemento
-					Element elementoAtivoTI = (Element) noAtivo;
-					
-					NodeList atributosAtivoFilho = elementoAtivoTI.getChildNodes();
-					
-					for(int j = 0; j <= atributosAtivoFilho.getLength(); j++){
-						
-						Node noAtivoFilho = atributosAtivoFilho.item(j);
-						
-						if(noAtivoFilho.getNodeType() == Node.ELEMENT_NODE){
-							 
-							Element elementoFilho = (Element) noAtivoFilho;
-							
-							//seta os parâmetros da classe AtivoTI com os dados vindos do XML
-							if(elementoFilho.getTagName() == "nome"){
-								ativoTI.setHostName(elementoFilho.getTextContent());
-								System.out.println("Nome: " + elementoFilho.getTextContent());
-							}
-							else{
-								System.out.println("O nome da TAG esperada é: nome");
-							}
-							
-							if(elementoFilho.getTagName() == "fabricante"){
-								ativoTI.setFabricante(elementoFilho.getTextContent());
-								System.out.println("Nome: " + elementoFilho.getTextContent());
-							}
-							else{
-								System.out.println("O nome da TAG esperada é: fabricante");
-							}
-							
-							if(elementoFilho.getTagName() == "consumoEnergia"){
-								ativoTI.setConsumoEnergia(Double.parseDouble(elementoFilho.getTextContent()));
-								System.out.println("Nome: " + elementoFilho.getTextContent());
-							}
-							else{
-								System.out.println("O nome da TAG esperada é: consumoEnergia");
-							}
-								
-							//salvar os elementos como obejtos AtivoTI
-							listaAtivos.add(ativoTI);
-					
-						}						
-						//registrar no banco
-						this.registra(listaAtivos);
-					}
-						
-				}
-					
-			}
-		}catch(ParserConfigurationException ex){
-			System.out.println("Erro...");
 		}catch(IOException io){
 			System.out.println("Erro ao abrir XML");
-		}catch(SAXException sx){
-			System.out.println("Erro ao criar XML");
 		}
-		//return listaAtivos;
-		return null;
+		return listaAtivos;
 	}
-	
-	
-	/*//registra um ativo de TI
-	("/registraAtivoTI")
-	public String registra(ArrayList<AtivoTI> ativoTIList, BindingResult validacao) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		//System.out.println(ativoTI.getHostName());
-		if (validacao.hasErrors()) {
-			return "ativo_novo";
-		}else{
-			this.ativoDAO.adiciona(ativoTIList);
-			return "ativo_sucesso";
-		}
-	}*/
 
 	//sobrecarga do método registra
 	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{

@@ -10,10 +10,12 @@ public class ConnectionBD{
     	
     	try {
 			Class.forName("com.mysql.jdbc.Driver");
+			return DriverManager.getConnection("jdbc:mysql://127.0.0.1/bdem","root", "passROOT");
+			
 		} catch (ClassNotFoundException e) {
 			throw new SQLException(e);
 		}
-		return DriverManager.getConnection("jdbc:mysql://127.0.0.1/bdem","root", "passROOT");
+		
     }
 
 }
