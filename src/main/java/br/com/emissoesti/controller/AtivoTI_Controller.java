@@ -112,7 +112,7 @@ public class AtivoTI_Controller {
 			//adiciona o obejto a lista
 			listaAtivos.add(ativoTI);
 			
-			System.out.println("Nome: " + ativoTI.getHostName() + "Fabricante: " + ativoTI.getFabricante() + "Consumo Energia: " + ativoTI.getConsumoEnergia());
+			System.out.println("Nome: " + ativoTI.getHostName() + " Fabricante: " + ativoTI.getFabricante() + " Consumo Energia: " + ativoTI.getConsumoEnergia());
 			
 			registra(listaAtivos);
 			
@@ -122,7 +122,7 @@ public class AtivoTI_Controller {
 		return listaAtivos;
 	}
 
-	//sobrecarga do método registra
+	//chama o método que faz a conexão com o banco 
 	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		this.ativoDAO.adiciona(ativoTIList);
 		return "ativo_sucesso";
