@@ -29,8 +29,8 @@ public class AtivoTI_DAO {
 		try {	
 			
 			String sql = "insert into ativo_ti"
-	  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo)"
-	  				+ "values (?,?,?)"; 
+	  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo)"
+	  				+ "values (?,?,?,?)"; 
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
@@ -44,6 +44,7 @@ public class AtivoTI_DAO {
 				 	stmt.setString(1, ativoList.get(i).getHostName());
 				 	stmt.setString(2, ativoList.get(i).getFabricante());
 					stmt.setDouble(3, ativoList.get(i).getConsumoEnergia());
+					stmt.setString(4, ativoList.get(i).getModelo());
 					//stmt.setDouble(4, ativoList.get(i).getCustoEnergia());
 				 	//stmt.setDouble(6, ativoList.get(i).getValorEmissaoCO());
 				 	stmt.execute();
