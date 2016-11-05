@@ -65,7 +65,8 @@ public class AtivoTI_Controller {
 					//atribui os valores veindos do arquivo para os atributos do objeto ativoTI
 					ativoTI.setHostName(valores[0]);
 					ativoTI.setFabricante(valores[1]);
-					ativoTI.setConsumoEnergia(Double.parseDouble(valores[2]));
+					ativoTI.setModelo(valores[2]);
+					ativoTI.setConsumoEnergia(Double.parseDouble(valores[3]));
 					
 					listaAtivos.add(ativoTI);
 				

@@ -4,6 +4,7 @@ public class AtivoTI {
 	
 	private String hostName;
 	private String fabricante;
+	private String modelo;
 	private double valorEmissaoCO;
 	private double consumoEnergia;
 	private double custoEnergia;
@@ -71,5 +72,14 @@ public class AtivoTI {
 	public void setCustoEnergia(double custoEnergia) {
 		this.custoEnergia = custoEnergia;
 	}
+
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+	
 	
 }
