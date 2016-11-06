@@ -2,6 +2,7 @@ package br.com.emissoesti.model;
 
 public class AtivoTI {
 	
+	private int idAtivo;
 	private String hostName;
 	private String fabricante;
 	private String modelo;
@@ -33,6 +34,14 @@ public class AtivoTI {
 	}
 
 	//métodos Geters e Seters	
+	public int getIdAtivo() {
+		return idAtivo;
+	}
+
+	public void setIdAtivo(int idAtivo) {
+		this.idAtivo = idAtivo;
+	}
+	
 	public String getHostName() {
 		return hostName;
 	}

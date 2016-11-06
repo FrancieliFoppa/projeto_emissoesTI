@@ -27,8 +27,8 @@ public class AtivoTI_DAO {
 		try {	
 			
 			String sql = "insert into ativo_ti"
-	  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo)"
-	  				+ "values (?,?,?,?)"; 
+		  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo)"
+		  				+ "values (?,?,?,?)"; 
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
@@ -55,39 +55,33 @@ public class AtivoTI_DAO {
 			
 		ResultSet res = null;	
 	
-		String sql = "select * from ativo_ti"
-				+ "where id_usuario = " + idUsuario;
+		String sql = "select id_ativo_ti, consumo_energia_ativo from ativo_ti where id_usuario = " + idUsuario;
 		PreparedStatement stmt;
 		
 		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
-		AtivoTI itemAtivo = new AtivoTI();
+		
 		
 		try {
 				stmt = connection.prepareStatement(sql);
 				res = stmt.executeQuery();
 				
-				while(res.next()){
+				res.beforeFirst();
+				while(res.next()){ 
+					AtivoTI itemAtivo = new AtivoTI();
+					//System.out.println(res.getInt(1));
+					//System.out.println(res.getDouble(2));
 					
-					//for(int i = 0; (i <= ativoList.size() - 1); i++){
-						
-						int count = 1;
-	
-						itemAtivo.setHostName(res.getString(count++));
-						itemAtivo.setFabricante(res.getString(count++));
-						itemAtivo.setConsumoEnergia(res.getDouble(count++));
-						itemAtivo.setValorEmissaoCO(res.getDouble(count++));
-						
-						ativoList.add(itemAtivo);
-						
-					//}
-					
+					itemAtivo.setIdAtivo(res.getInt(1));
+					itemAtivo.setConsumoEnergia(res.getDouble(2));
+					ativoList.add(itemAtivo);
 				}
 			
-			} catch (SQLException e) {
+			}catch (SQLException e){
 				throw new RuntimeException(e);
 			}finally{
-				connection.close();
+				//connection.close();
 			}
+		//System.out.println(ativoList.get(0).getIdAtivo() + " " + ativoList.get(0).getHostName() + " " + ativoList.get(0).getFabricante() + " " + ativoList.get(0).getConsumoEnergia());
 			return ativoList;
 	}	
 	
@@ -98,22 +92,22 @@ public class AtivoTI_DAO {
 
 		try {	
 			
-				String sql = "update into ativo_ti"
-		  				+ " (emissao_ativo)"
-		  				+ "values (?)"
-						+ "where id_usuario = " + idUsuario; 
+			String sql = "update ativo_ti set emissao_ativo = ? where id_usuario = " + idUsuario + " and id_ativo_ti = ?"; 
+			
+			PreparedStatement stmt = connection.prepareStatement(sql);			
+			
+				for(int i = 0; (i <= ativoList.size() - 1); i++){
+				 					
+				 	stmt.setDouble(1, ativoList.get(i).getValorEmissaoCO());
+				 	stmt.setInt(2, ativoList.get(i).getIdAtivo());
+				 	stmt.executeUpdate();
+				}
 				
-				PreparedStatement stmt = connection.prepareStatement(sql);			
-				
-					for(int i = 0; (i <= ativoList.size() - 1); i++){
-					 					
-					 	stmt.setDouble(6, ativoList.get(i).getValorEmissaoCO());
-					 	stmt.execute();
-				
-					}
-			}finally{
-				connection.close();
-			}
+		}catch (SQLException e){
+			throw new RuntimeException(e);
+		}finally{
+			connection.close();
+		}
 	}
 	
 	/*

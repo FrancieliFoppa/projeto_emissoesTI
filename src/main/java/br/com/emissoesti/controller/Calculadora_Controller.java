@@ -54,7 +54,7 @@ public class Calculadora_Controller extends Calculadora{
 		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
 			resultadoEmissao = listaDeAtivos.get(i).getConsumoEnergia() * fatorEmissaoCO;
 			listaDeAtivos.get(i).setValorEmissaoCO(resultadoEmissao);
-			System.out.println("Enissão: " + listaDeAtivos.get(i).getValorEmissaoCO());
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão: " + listaDeAtivos.get(i).getValorEmissaoCO());
 		}
 				
 		ativoDAO.atualizaEmissao(listaDeAtivos, idUsuario);
