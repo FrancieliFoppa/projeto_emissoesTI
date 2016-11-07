@@ -60,7 +60,6 @@ public class AtivoTI_DAO {
 		
 		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
 		
-		
 		try {
 				stmt = connection.prepareStatement(sql);
 				res = stmt.executeQuery();
@@ -116,11 +115,34 @@ public class AtivoTI_DAO {
 	 */
 	public AtivoTI retornaMaxAtivo(){
 		
-		AtivoTI MaiorConsumoAtivo = new AtivoTI();
+		AtivoTI ativoMaiorConsumo = null;
+		ResultSet res = null;	
 		
-		//select MAX(consumo_energia_ativo)
-		
-		return MaiorConsumoAtivo;
+		String sql = "select id_ativo_ti, fabricante_ativo, modelo_ativo, MIN(consumo_energia_ativo) from ativo_ti " 
+					+ "group by id_ativo_ti, fabricante_ativo, modelo_ativo, consumo_energia_ativo";
+		PreparedStatement stmt;
+				
+		try {
+				stmt = connection.prepareStatement(sql);
+				res = stmt.executeQuery();
+				
+				//res.beforeFirst();
+				while(res.next()){ 
+					ativoMaiorConsumo = new AtivoTI();					
+					ativoMaiorConsumo.setIdAtivo(res.getInt(1));
+					ativoMaiorConsumo.setFabricante(res.getString(2));
+					ativoMaiorConsumo.setModelo(res.getString(3));
+					ativoMaiorConsumo.setConsumoEnergia(res.getDouble(4));
+					
+				}
+			
+			}catch (SQLException e){
+				throw new RuntimeException(e);
+			}finally{
+				//connection.close();
+			}
+		System.out.println(ativoMaiorConsumo.getFabricante() + " " + ativoMaiorConsumo.getModelo() + " " + ativoMaiorConsumo.getConsumoEnergia());
+		return ativoMaiorConsumo;
 	}
 	
 	/*
@@ -128,11 +150,34 @@ public class AtivoTI_DAO {
 	 * menor emissão de CO², independente do usuário/empresa 
 	 */
 	public AtivoTI retornaMinAtivo(){
+				
+		AtivoTI ativoMenorConsumo = null;
+		ResultSet res = null;	
 		
-		AtivoTI MenorConsumoAtivo = new AtivoTI();
-		
-		//select Min(consumo_energia_ativo)
-		
-		return MenorConsumoAtivo;
+		String sql = "select id_ativo_ti, fabricante_ativo, modelo_ativo, MAX(consumo_energia_ativo) from ativo_ti " 
+					+ "group by id_ativo_ti, fabricante_ativo, modelo_ativo, consumo_energia_ativo";
+		PreparedStatement stmt;
+				
+		try {
+				stmt = connection.prepareStatement(sql);
+				res = stmt.executeQuery();
+				
+				//res.beforeFirst();
+				while(res.next()){ 
+					ativoMenorConsumo = new AtivoTI();					
+					ativoMenorConsumo.setIdAtivo(res.getInt(1));
+					ativoMenorConsumo.setFabricante(res.getString(2));
+					ativoMenorConsumo.setModelo(res.getString(3));
+					ativoMenorConsumo.setConsumoEnergia(res.getDouble(4));
+					
+				}
+			
+			}catch (SQLException e){
+				throw new RuntimeException(e);
+			}finally{
+				//connection.close();
+			}
+		System.out.println(ativoMenorConsumo.getFabricante() + " " + ativoMenorConsumo.getModelo() + " " + ativoMenorConsumo.getConsumoEnergia());
+		return ativoMenorConsumo;
 	}
 }

@@ -43,6 +43,9 @@ public class Calculadora_Controller extends Calculadora{
 		return listaDeAtivos;
 	}
 	
+	@POST	
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
 	public ArrayList<AtivoTI> calculaEmissao(double fatorEmissaoCO, int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();

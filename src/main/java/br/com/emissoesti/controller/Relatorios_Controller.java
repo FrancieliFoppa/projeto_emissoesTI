@@ -3,21 +3,17 @@ package br.com.emissoesti.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 import br.com.emissoesti.model.Relatorios;
@@ -171,8 +167,6 @@ public class Relatorios_Controller extends Relatorios{
 		//busca o diretorio para salvar o PDF na maquina do usuário
 		String path = System.getProperty("user.home") + System.getProperty("file.separator");
 		
-		AtivoTI_DAO consultaAtivo = new AtivoTI_DAO();
-		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
 			PdfWriter.getInstance(relatorioPropostasResultados, new FileOutputStream(path + "\\PropostasResultados.pdf"));
@@ -196,15 +190,29 @@ public class Relatorios_Controller extends Relatorios{
 			relatorioPropostasResultados.add(logo);
 			
 			//escreve título
-			relatorioPropostasResultados.addTitle("Prosposta de melhoria no ambiente de ativos");
+			relatorioPropostasResultados.addTitle("Prosposta de melhoria nos ativos");
 			
 			//escreve paragrafo
-			relatorioPropostasResultados.add(new Paragraph("Sugestão de Ativo cujo consumo de energia está abaixo:"));
-				
-			//escreve no relatório as infromações sobre cada ativo da lista
-			relatorioPropostasResultados.add((Element) consultaAtivo.retornaMinAtivo());	
-						
+			//relatorioPropostasResultados.add(new Paragraph("Sugestão de Ativo cujo consumo de energia está abaixo:"));
 			
+			//escreve no relatório as informações do ativo de menor consumo de energia
+			relatorioPropostasResultados.add(new Paragraph("Abaixo as informações do ativo de menor consumo de energia em nossa base de dados: "));
+			
+			//recebe a consulta do ativo de menor consumo de energia
+			AtivoTI_DAO consultaAtivo = new AtivoTI_DAO();
+			AtivoTI menorAtivo = new AtivoTI();
+			menorAtivo = consultaAtivo.retornaMinAtivo();
+
+			//insere o fabricante no relatório
+			relatorioPropostasResultados.add(new Paragraph("Fabricante: " + menorAtivo.getFabricante()));
+			
+			//insere o modelo no relatório
+			relatorioPropostasResultados.add(new Paragraph("Modelo: " + menorAtivo.getModelo()));
+			
+			//insere o consumo de energia atual no relatório
+			relatorioPropostasResultados.add(new Paragraph("Consumo de energia atual: " + menorAtivo.getConsumoEnergia()));
+						
+									
 		}catch(DocumentException de){
 			System.out.println("Erro ao criar documento");
 		}catch(IOException io){
