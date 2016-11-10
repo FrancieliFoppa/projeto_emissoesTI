@@ -27,8 +27,8 @@ public class AtivoTI_DAO {
 		try {	
 			
 			String sql = "insert into ativo_ti"
-		  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo)"
-		  				+ "values (?,?,?,?)"; 
+		  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo, categoria_ativo, horas_consumo_ativo, tipo_consumo_ativo)"
+		  				+ "values (?,?,?,?,?,?,?)"; 
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
@@ -38,8 +38,9 @@ public class AtivoTI_DAO {
 				 	stmt.setString(2, ativoList.get(i).getFabricante());
 					stmt.setDouble(3, ativoList.get(i).getConsumoEnergia());
 					stmt.setString(4, ativoList.get(i).getModelo());
-					//stmt.setDouble(4, ativoList.get(i).getCustoEnergia());
-				 	//stmt.setDouble(6, ativoList.get(i).getValorEmissaoCO());
+					stmt.setString(5, ativoList.get(i).getCategoria());
+					stmt.setDouble(6, ativoList.get(i).getHorasConsumo());
+				 	stmt.setString(7, ativoList.get(i).getTipoConsumo());
 				 	stmt.execute();
 				
 				}
@@ -80,7 +81,7 @@ public class AtivoTI_DAO {
 			}finally{
 				//connection.close();
 			}
-		//System.out.println(ativoList.get(0).getIdAtivo() + " " + ativoList.get(0).getHostName() + " " + ativoList.get(0).getFabricante() + " " + ativoList.get(0).getConsumoEnergia());
+		//System.out.println(ativoList.get(3).getIdAtivo() + " " + ativoList.get(3).getHostName() + " " + ativoList.get(3).getFabricante() + " " + ativoList.get(3).getConsumoEnergia());
 			return ativoList;
 	}	
 	

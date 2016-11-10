@@ -23,7 +23,7 @@ public class TestCalculos {
 		
 		//testCalc.calculaEmissao(0.5317, testList);
 		
-		testCalc.calculaEmissao(0.5317, 1);
+		testCalc.calculaEmissao(531.7, 1);
 				
 	}
 

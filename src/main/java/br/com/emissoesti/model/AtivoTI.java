@@ -6,9 +6,12 @@ public class AtivoTI {
 	private String hostName;
 	private String fabricante;
 	private String modelo;
+	private String categoria;
 	private double valorEmissaoCO;
 	private double consumoEnergia;
 	private double custoEnergia;
+	private double horasConsumo;
+	private String tipoConsumo;
 	
 	public AtivoTI() {}
 
@@ -24,6 +27,7 @@ public class AtivoTI {
 	public AtivoTI(String hostName, String fabricante, double consumoEnergia) {
 		this.hostName = hostName;
 		this.fabricante = fabricante;
+		this.consumoEnergia = consumoEnergia;
 	}
 	
 	public AtivoTI(String hostName, String fabricante, double valorEmissaoCO, double consumoEnergia) {
@@ -31,6 +35,19 @@ public class AtivoTI {
 		this.fabricante = fabricante;
 		this.valorEmissaoCO = valorEmissaoCO;
 		this.consumoEnergia = consumoEnergia;
+	}
+	
+	public AtivoTI(String hostName, String fabricante, String modelo, String categoria, double valorEmissaoCO, double consumoEnergia, double horasConsumo, String tipoConsumo) {
+		this.hostName = hostName;
+		this.fabricante = fabricante;
+		this.modelo = modelo;
+		this.categoria = categoria;
+		this.valorEmissaoCO = valorEmissaoCO;
+		this.consumoEnergia = consumoEnergia;
+		this.consumoEnergia = consumoEnergia;
+		this.horasConsumo = horasConsumo;
+		this.tipoConsumo = tipoConsumo;
+				
 	}
 
 	//métodos Geters e Seters	
@@ -89,6 +106,29 @@ public class AtivoTI {
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public double getHorasConsumo() {
+		return horasConsumo;
+	}
+
+	public void setHorasConsumo(double horasConsumo) {
+		this.horasConsumo = horasConsumo;
+	}
+
+	public String getTipoConsumo() {
+		return tipoConsumo;
+	}
+
+	public void setTipoConsumo(String tipoConsumo) {
+		this.tipoConsumo = tipoConsumo;
+	}
 	
 }
