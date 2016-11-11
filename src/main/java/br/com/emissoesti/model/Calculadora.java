@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Calculadora {
 	
-	private static double fatorEmissaoCO = 531.7; //fator de emissão em kgCO²/MWh
+	private static double fatorEmissaoCO = 0.0789; //fator de emissão em tCO²/MWh
 	private double taxaEnergia;
 	private ArrayList<AtivoTI> listaDeAtivos;
 
