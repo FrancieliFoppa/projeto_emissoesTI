@@ -25,8 +25,8 @@ public class Calculadora_Controller extends Calculadora{
 	}
 
 	/*
-	 * método que calcula a quantidade de CO² emitida, atravéz da quatidade de hardware, o valor de emissão
-	 *por hardware, que pode ser médio ou exato, multiplicado pelo fator de emissão de CO².
+	 * método calcula a quantidade de CO² emitida atavés do consumo de energia por hardware
+	 * multiplicado pelo fator de emissão de CO².
 	 */
 	@POST	
 	@Consumes(MediaType.TEXT_PLAIN)
@@ -34,15 +34,38 @@ public class Calculadora_Controller extends Calculadora{
 	public ArrayList<AtivoTI> calculaEmissao(double fatorEmissaoCO, ArrayList<AtivoTI> listaDeAtivos){
 			
 		double resultadoEmissao = 0.0;
+		//percorre a lista de ativos
 		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
-			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergia() / 1000000) * fatorEmissaoCO;
-			listaDeAtivos.get(i).setValorEmissaoCO(resultadoEmissao);
-			System.out.println("Enissão: " + listaDeAtivos.get(i).getValorEmissaoCO());
+
+			//multiplica pelo consumo diario
+			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaDiario() * fatorEmissaoCO);
+			listaDeAtivos.get(i).setValorEmissaoCODiario(resultadoEmissao);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão diaria: " + listaDeAtivos.get(i).getValorEmissaoCODiario());
+			
+			//multiplica pelo consumo semanal
+			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaSemanal() * fatorEmissaoCO);
+			listaDeAtivos.get(i).setValorEmissaoCOSemanal(resultadoEmissao);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão semanal: " + listaDeAtivos.get(i).getValorEmissaoCOSemanal());
+			
+			//multiplica pelo consumo mensal
+			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaMensal() * fatorEmissaoCO);
+			listaDeAtivos.get(i).setValorEmissaoCOMensal(resultadoEmissao);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão mensal: " + listaDeAtivos.get(i).getValorEmissaoCOMensal());
+			
+			//multiplica pelo consumo anual
+			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaAnual() * fatorEmissaoCO);
+			listaDeAtivos.get(i).setValorEmissaoCOAnual(resultadoEmissao);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão anual: " + listaDeAtivos.get(i).getValorEmissaoCOAnual());
+			
 		}
 				
 		return listaDeAtivos;
 	}
 	
+	/*
+	 * método calcula a quantidade de CO² emitida atavés do consumo de energia por hardware
+	 * multiplicado pelo fator de emissão de CO².
+	 */
 	@POST	
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
@@ -52,12 +75,40 @@ public class Calculadora_Controller extends Calculadora{
 		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
 		
 		listaDeAtivos = ativoDAO.listaAtivo(idUsuario);
-		
+
 		double resultadoEmissao = 0.0;
+		
+		//percorre a lista de ativos
 		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
-			resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergia() / 1000000) * fatorEmissaoCO;
-			listaDeAtivos.get(i).setValorEmissaoCO(resultadoEmissao);
-			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão: " + listaDeAtivos.get(i).getValorEmissaoCO());
+			
+			//valida se há consumo calculado
+			if(listaDeAtivos.get(i).getConsumoEnergiaDiario() == 0.0){
+				
+				calculaConsumoEnergia(idUsuario);
+				calculaEmissao(fatorEmissaoCO, idUsuario);
+				
+			}else {
+				//multiplica pelo consumo diario
+				resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaDiario() * fatorEmissaoCO);
+				listaDeAtivos.get(i).setValorEmissaoCODiario(resultadoEmissao);
+				System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão diaria: " + listaDeAtivos.get(i).getValorEmissaoCODiario());
+				
+				//multiplica pelo consumo semanal
+				resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaSemanal() * fatorEmissaoCO);
+				listaDeAtivos.get(i).setValorEmissaoCOSemanal(resultadoEmissao);
+				System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão semanal: " + listaDeAtivos.get(i).getValorEmissaoCOSemanal());
+				
+				//multiplica pelo consumo mensal
+				resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaMensal() * fatorEmissaoCO);
+				listaDeAtivos.get(i).setValorEmissaoCOMensal(resultadoEmissao);
+				System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão mensal: " + listaDeAtivos.get(i).getValorEmissaoCOMensal());
+				
+				//multiplica pelo consumo anual
+				resultadoEmissao = (listaDeAtivos.get(i).getConsumoEnergiaAnual() * fatorEmissaoCO);
+				listaDeAtivos.get(i).setValorEmissaoCOAnual(resultadoEmissao);
+				System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão anual: " + listaDeAtivos.get(i).getValorEmissaoCOAnual());
+				
+			}
 		}
 				
 		ativoDAO.atualizaEmissao(listaDeAtivos, idUsuario);
@@ -66,8 +117,63 @@ public class Calculadora_Controller extends Calculadora{
 	}
 		
 	/*
+	 * método calcula o consumo de energia através do consumo por hora do hardware
+	 * multiplicado pela quantidade de dias que permance ligado e pelo consumo de Watts de energia
+	 */
+	@POST	
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public ArrayList<AtivoTI> calculaConsumoEnergia(int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		
+		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
+		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
+		
+		listaDeAtivos = ativoDAO.listaAtivo(idUsuario);
+		
+		double consumoMegaWatt = 0.0;
+		double resultadoConsumo = 0.0;
+		//percorre a lista de ativos
+		for(int i = 0; i <= (listaDeAtivos.size()-1); i++){
+			
+			//converte o consumo de energia de Watts para MegaWatt
+			consumoMegaWatt = (listaDeAtivos.get(i).getConsumoEnergia() / 1000000); 
+			//multiplica pelo consumo diario
+			resultadoConsumo = ((consumoMegaWatt * listaDeAtivos.get(i).getHorasConsumoDiario()));
+			listaDeAtivos.get(i).setConsumoEnergiaDiario(resultadoConsumo);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão diaria: " + listaDeAtivos.get(i).getValorEmissaoCODiario());
+			
+			//multiplica pelo consumo semanal
+			double HrsconsumoSemanal = 0.0;
+			HrsconsumoSemanal = (listaDeAtivos.get(i).getHorasConsumoDiario() * listaDeAtivos.get(i).getDiasConsumo());
+			resultadoConsumo = (consumoMegaWatt * HrsconsumoSemanal);
+			listaDeAtivos.get(i).setConsumoEnergiaSemanal(resultadoConsumo);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão semanal: " + listaDeAtivos.get(i).getValorEmissaoCOSemanal());
+			
+			//multiplica pelo consumo mensal
+			double HrsconsumoMensal = 0.0;
+			HrsconsumoMensal = (HrsconsumoSemanal * 4);
+			resultadoConsumo = (consumoMegaWatt * HrsconsumoMensal);
+			listaDeAtivos.get(i).setConsumoEnergiaMensal(resultadoConsumo);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão mensal: " + listaDeAtivos.get(i).getValorEmissaoCOMensal());
+			
+			//multiplica pelo consumo anual
+			double HrsconsumoAnual = 0.0;
+			HrsconsumoAnual = (HrsconsumoMensal * 12);
+			resultadoConsumo = (consumoMegaWatt * HrsconsumoAnual);
+			listaDeAtivos.get(i).setConsumoEnergiaAnual(resultadoConsumo);
+			System.out.println(listaDeAtivos.get(i).getIdAtivo() + " Emissão anual: " + listaDeAtivos.get(i).getValorEmissaoCOAnual());
+			
+		}
+				
+		ativoDAO.atualizaConsumo(listaDeAtivos, idUsuario);
+		return listaDeAtivos;
+		
+	}
+	
+		
+	/*
 	 * método que calcula o custo de utilização de enegia pelos hardwares, apartir do consumo informado,
-	 *medio ou exato, multiplicado pela taxa de energia da cidade onde os haerdwares estão alocados. 
+	 * medio ou exato, multiplicado pela taxa de energia da cidade onde os haerdwares estão alocados. 
 	 */
 	@POST	
 	@Consumes(MediaType.TEXT_PLAIN)

@@ -33,7 +33,7 @@ public class AtivoTI_Controller {
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
-	public ArrayList<AtivoTI> processaCSV(String path) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public ArrayList<AtivoTI> processaCSV(String path, int id_usuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 		
 		//instancia uma lista de ativos
 		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
@@ -68,13 +68,13 @@ public class AtivoTI_Controller {
 					ativoTI.setModelo(valores[2]);
 					ativoTI.setCategoria(valores[3]);
 					ativoTI.setConsumoEnergia(Double.parseDouble(valores[4]));
-					ativoTI.setHorasConsumo(Double.parseDouble(valores[5]));
-					ativoTI.setTipoConsumo(valores[6]);
+					ativoTI.sethorasConsumoDiario(Double.parseDouble(valores[5]));
+					ativoTI.setDiasConsumo(Integer.parseInt(valores[6]));
 					
 					listaAtivos.add(ativoTI);
 				
 					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + "Modelo: " + ativoTI.getModelo() + "Categoria: " + ativoTI.getCategoria() +
-							" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumo() + "Tipo Consumo: " + ativoTI.getTipoConsumo());
+							" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + "Dias consumo: " + ativoTI.getDiasConsumo());
 								
 			}	
 			//fecha o Scanner
@@ -84,7 +84,7 @@ public class AtivoTI_Controller {
          System.out.println("O arquivo não existe");
         }
 		//registrar no banco
-		this.registra(listaAtivos);
+		this.registra(listaAtivos, id_usuario);
 		
 		return listaAtivos;
 	}
@@ -102,7 +102,7 @@ public class AtivoTI_Controller {
 	@POST
 	@Consumes(MediaType.APPLICATION_ATOM_XML)
 	@Produces(MediaType.TEXT_PLAIN)
-	public ArrayList<AtivoTI> processaXML(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+	public ArrayList<AtivoTI> processaXML(String path, int id_usuario) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
 		
 		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
 		
@@ -118,9 +118,9 @@ public class AtivoTI_Controller {
 			listaAtivos.add(ativoTI);
 			
 			System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + "Modelo: " + ativoTI.getModelo() + "Categoria: " + ativoTI.getCategoria() +
-					" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumo() + "Tipo Consumo: " + ativoTI.getTipoConsumo());
+					" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario()  + "Dias consumo: " + ativoTI.getDiasConsumo());
 			
-			registra(listaAtivos);
+			registra(listaAtivos, id_usuario);
 			
 		}catch(IOException io){
 			System.out.println("Erro ao abrir XML");
@@ -128,23 +128,21 @@ public class AtivoTI_Controller {
 		return listaAtivos;
 	}
 
-	//chama o método que faz a conexão com o banco 
-	private String registra(ArrayList<AtivoTI> ativoTIList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		this.ativoDAO.adiciona(ativoTIList);
+	//chama o método que faz o insert no banco 
+	private String registra(ArrayList<AtivoTI> ativoTIList, int id_usuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		this.ativoDAO.insereAtivo(ativoTIList, id_usuario);
 		return "ativo_sucesso";
 	}
 	
 	//método busca o ativo com maior consumo de energia
 	//("/maiorAtivoTI")
-	public String retornaMaior(){
-		this.ativoDAO.retornaMaxAtivo();
-		return ""; //view ou relatório?
+	public AtivoTI buscaAtivoMaisConsumo(){
+		return this.ativoDAO.retornaMaxAtivo();
 	}
-	/*
-	@RequestMapping("/buscaListaAtivoTI")
-	public String RetornaListaAtivo(Usuario codigoUsuario) throws SQLException{
-		this.ativoDAO.listaAtivo(codigoUsuario);
-		return "";	//view ou relatório?
+
+	//método busca o ativo com menor consumo de energia
+	//("/maiorAtivoTI")
+	public AtivoTI buscaAtivoMenosConsumo(){
+		return this.ativoDAO.retornaMinAtivo();
 	}
-	*/
 }

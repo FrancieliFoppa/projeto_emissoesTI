@@ -7,11 +7,18 @@ public class AtivoTI {
 	private String fabricante;
 	private String modelo;
 	private String categoria;
-	private double valorEmissaoCO;
+	private double valorEmissaoCODiario;
+	private double valorEmissaoCOSemanal;
+	private double valorEmissaoCOMensal;
+	private double valorEmissaoCOAnual;
 	private double consumoEnergia;
+	private double consumoEnergiaDiario;
+	private double consumoEnergiaSemanal;
+	private double consumoEnergiaMensal;
+	private double consumoEnergiaAnual;
 	private double custoEnergia;
-	private double horasConsumo;
-	private String tipoConsumo;
+	private double horasConsumoDiario;
+	private int diasConsumo;
 	
 	public AtivoTI() {}
 
@@ -30,23 +37,23 @@ public class AtivoTI {
 		this.consumoEnergia = consumoEnergia;
 	}
 	
-	public AtivoTI(String hostName, String fabricante, double valorEmissaoCO, double consumoEnergia) {
+	public AtivoTI(String hostName, String fabricante, double valorEmissaoCODiario, double consumoEnergia) {
 		this.hostName = hostName;
 		this.fabricante = fabricante;
-		this.valorEmissaoCO = valorEmissaoCO;
+		this.valorEmissaoCODiario = valorEmissaoCODiario;
 		this.consumoEnergia = consumoEnergia;
 	}
 	
-	public AtivoTI(String hostName, String fabricante, String modelo, String categoria, double valorEmissaoCO, double consumoEnergia, double horasConsumo, String tipoConsumo) {
+	public AtivoTI(String hostName, String fabricante, String modelo, String categoria, double valorEmissaoCODiario, double consumoEnergia, double horasConsumoDiario, int diasConsumo) {
 		this.hostName = hostName;
 		this.fabricante = fabricante;
 		this.modelo = modelo;
 		this.categoria = categoria;
-		this.valorEmissaoCO = valorEmissaoCO;
+		this.valorEmissaoCODiario = valorEmissaoCODiario;
 		this.consumoEnergia = consumoEnergia;
 		this.consumoEnergia = consumoEnergia;
-		this.horasConsumo = horasConsumo;
-		this.tipoConsumo = tipoConsumo;
+		this.horasConsumoDiario = horasConsumoDiario;
+		this.diasConsumo = diasConsumo;
 				
 	}
 
@@ -75,12 +82,40 @@ public class AtivoTI {
 		this.fabricante = fabricante;
 	}
 
-	public double getValorEmissaoCO() {
-		return valorEmissaoCO;
+	public double getValorEmissaoCODiario() {
+		return valorEmissaoCODiario;
 	}
 
-	public void setValorEmissaoCO(double valorEmissaoCO) {
-		this.valorEmissaoCO = valorEmissaoCO;
+	public void setvalorEmissaoCODiario(double valorEmissaoCODiario) {
+		this.valorEmissaoCODiario = valorEmissaoCODiario;
+	}
+	
+	public double getValorEmissaoCOSemanal() {
+		return valorEmissaoCOSemanal;
+	}
+
+	public void setValorEmissaoCOSemanal(double valorEmissaoCOSemanal) {
+		this.valorEmissaoCOSemanal = valorEmissaoCOSemanal;
+	}
+
+	public double getValorEmissaoCOMensal() {
+		return valorEmissaoCOMensal;
+	}
+
+	public void setValorEmissaoCOMensal(double valorEmissaoCOMensal) {
+		this.valorEmissaoCOMensal = valorEmissaoCOMensal;
+	}
+
+	public double getValorEmissaoCOAnual() {
+		return valorEmissaoCOAnual;
+	}
+
+	public void setValorEmissaoCOAnual(double valorEmissaoCOAnual) {
+		this.valorEmissaoCOAnual = valorEmissaoCOAnual;
+	}
+
+	public void setValorEmissaoCODiario(double valorEmissaoCODiario) {
+		this.valorEmissaoCODiario = valorEmissaoCODiario;
 	}
 
 	public double getConsumoEnergia() {
@@ -115,20 +150,52 @@ public class AtivoTI {
 		this.categoria = categoria;
 	}
 
-	public double getHorasConsumo() {
-		return horasConsumo;
+	public double getHorasConsumoDiario() {
+		return horasConsumoDiario;
 	}
 
-	public void setHorasConsumo(double horasConsumo) {
-		this.horasConsumo = horasConsumo;
+	public void sethorasConsumoDiario(double horasConsumoDiario) {
+		this.horasConsumoDiario = horasConsumoDiario;
 	}
 
-	public String getTipoConsumo() {
-		return tipoConsumo;
+	public double getConsumoEnergiaDiario() {
+		return consumoEnergiaDiario;
 	}
 
-	public void setTipoConsumo(String tipoConsumo) {
-		this.tipoConsumo = tipoConsumo;
+	public void setConsumoEnergiaDiario(double consumoEnergiaDiario) {
+		this.consumoEnergiaDiario = consumoEnergiaDiario;
 	}
-	
+
+	public double getConsumoEnergiaSemanal() {
+		return consumoEnergiaSemanal;
+	}
+
+	public void setConsumoEnergiaSemanal(double consumoEnergiaSemanal) {
+		this.consumoEnergiaSemanal = consumoEnergiaSemanal;
+	}
+
+	public double getConsumoEnergiaMensal() {
+		return consumoEnergiaMensal;
+	}
+
+	public void setConsumoEnergiaMensal(double consumoEnergiaMensal) {
+		this.consumoEnergiaMensal = consumoEnergiaMensal;
+	}
+
+	public double getConsumoEnergiaAnual() {
+		return consumoEnergiaAnual;
+	}
+
+	public void setConsumoEnergiaAnual(double consumoEnergiaAnual) {
+		this.consumoEnergiaAnual = consumoEnergiaAnual;
+	}
+
+	public int getDiasConsumo() {
+		return diasConsumo;
+	}
+
+	public void setDiasConsumo(int diasConsumo) {
+		this.diasConsumo = diasConsumo;
+	}
+
 }

@@ -22,13 +22,13 @@ public class AtivoTI_DAO {
 	/*
 	 * Método insere no banco de dados MySql uma lista de objetos do tipo AtivoTI e seus respectivos atributos
 	 */
-	public void adiciona(ArrayList<AtivoTI> ativoList) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void insereAtivo(ArrayList<AtivoTI> ativoList, int id_usuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		try {	
 			
 			String sql = "insert into ativo_ti"
-		  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo, categoria_ativo, horas_consumo_ativo, tipo_consumo_ativo)"
-		  				+ "values (?,?,?,?,?,?,?)"; 
+		  				+ " (nome_ativo, fabricante_ativo, consumo_energia_ativo, modelo_ativo, categoria_ativo, horas_consumo_diario, dias_consumo, " + id_usuario + " ) "
+		  				+ " values (?,?,?,?,?,?,?,?)"; 
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
@@ -39,8 +39,10 @@ public class AtivoTI_DAO {
 					stmt.setDouble(3, ativoList.get(i).getConsumoEnergia());
 					stmt.setString(4, ativoList.get(i).getModelo());
 					stmt.setString(5, ativoList.get(i).getCategoria());
-					stmt.setDouble(6, ativoList.get(i).getHorasConsumo());
-				 	stmt.setString(7, ativoList.get(i).getTipoConsumo());
+					stmt.setDouble(6, ativoList.get(i).getHorasConsumoDiario());
+					stmt.setInt(7, ativoList.get(i).getDiasConsumo());
+					stmt.setDouble(8, id_usuario);
+				 	
 				 	stmt.execute();
 				
 				}
@@ -67,10 +69,7 @@ public class AtivoTI_DAO {
 				
 				res.beforeFirst();
 				while(res.next()){ 
-					AtivoTI itemAtivo = new AtivoTI();
-					//System.out.println(res.getInt(1));
-					//System.out.println(res.getDouble(2));
-					
+					AtivoTI itemAtivo = new AtivoTI();					
 					itemAtivo.setIdAtivo(res.getInt(1));
 					itemAtivo.setConsumoEnergia(res.getDouble(2));
 					ativoList.add(itemAtivo);
@@ -78,10 +77,8 @@ public class AtivoTI_DAO {
 			
 			}catch (SQLException e){
 				throw new RuntimeException(e);
-			}finally{
-				//connection.close();
 			}
-		//System.out.println(ativoList.get(3).getIdAtivo() + " " + ativoList.get(3).getHostName() + " " + ativoList.get(3).getFabricante() + " " + ativoList.get(3).getConsumoEnergia());
+
 			return ativoList;
 	}	
 	
@@ -92,14 +89,51 @@ public class AtivoTI_DAO {
 
 		try {	
 			
-			String sql = "update ativo_ti set emissao_ativo = ? where id_usuario = " + idUsuario + " and id_ativo_ti = ?"; 
+			String sql = "update ativo_ti set emissao_ativo_diario = ?, "
+					+ "emissao_ativo_semanal = ?, "
+					+ "emissao_ativo_mensal = ?, "
+					+ "emissao_ativo_anual = ? where id_usuario = " + idUsuario + " and id_ativo_ti = ?"; 
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);			
 			
 				for(int i = 0; (i <= ativoList.size() - 1); i++){
 				 					
-				 	stmt.setDouble(1, ativoList.get(i).getValorEmissaoCO());
-				 	stmt.setInt(2, ativoList.get(i).getIdAtivo());
+				 	stmt.setDouble(1, ativoList.get(i).getValorEmissaoCODiario());
+				 	stmt.setDouble(2, ativoList.get(i).getValorEmissaoCOSemanal());
+				 	stmt.setDouble(3, ativoList.get(i).getValorEmissaoCOMensal());
+				 	stmt.setDouble(4, ativoList.get(i).getValorEmissaoCOAnual());
+				 	stmt.setInt(5, ativoList.get(i).getIdAtivo());
+				 	stmt.executeUpdate();
+				}
+				
+		}catch (SQLException e){
+			throw new RuntimeException(e);
+		}finally{
+			connection.close();
+		}
+	}
+	
+	/*
+	 * Método atualiza no banco de dados MySql a lista de objetos do tipo AtivoTI com seus respctivos valores de consumo de energia
+	 */	
+	public void atualizaConsumo(ArrayList<AtivoTI> ativoList, int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+
+		try {	
+			
+			String sql = "update ativo_ti set consumo_energia_diario = ?, "
+					+ "consumo_energia_semanal = ?, "
+					+ "consumo_energia_mensal = ?, "
+					+ "consumo_energia_anual = ? where id_usuario = " + idUsuario + " and id_ativo_ti = ?"; 
+			
+			PreparedStatement stmt = connection.prepareStatement(sql);			
+			
+				for(int i = 0; (i <= ativoList.size() - 1); i++){
+				 					
+				 	stmt.setDouble(1, ativoList.get(i).getConsumoEnergiaDiario());
+				 	stmt.setDouble(2, ativoList.get(i).getConsumoEnergiaSemanal());
+				 	stmt.setDouble(3, ativoList.get(i).getConsumoEnergiaMensal());
+				 	stmt.setDouble(4, ativoList.get(i).getConsumoEnergiaAnual());
+				 	stmt.setInt(5, ativoList.get(i).getIdAtivo());
 				 	stmt.executeUpdate();
 				}
 				
