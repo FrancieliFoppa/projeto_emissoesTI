@@ -13,7 +13,7 @@ public class TestArquivos extends TestCase {
 		
 		AtivoTI_Controller testAtivo = new AtivoTI_Controller();
 		
-		testAtivo.processaCSV("C:\\ativos_teste.csv");
+		testAtivo.processaCSV("C:\\testes\\ativos_teste3.csv", 1);
 		//assertNotNull(testAtivo.registra(ativoTI, validacao));	
 		
 		//testAtivo.processaXML("C:\\testes\\arquivoXML.xml");
