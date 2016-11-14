@@ -12,9 +12,7 @@ public class TestDAO {
 	public void test() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		
 		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
-		//ArrayList<AtivoTI> testList = new ArrayList<AtivoTI>();
-		ativoDAO.listaAtivo(3);
-		
+		//ArrayList<AtivoTI> testList = new ArrayList<AtivoTI>();		
 		//ativoDAO.retornaMinAtivo();
 		/*
 		
@@ -25,7 +23,7 @@ public class TestDAO {
 		testList.add(ativoTest);
 		testList.add(ativoTest2);
 		*/
-		//ativoDAO.atualizaEmissao(testList, 3);
+		ativoDAO.listaAtivoInfEmissao(1);
 	}
 
 }

@@ -21,9 +21,11 @@ public class TestCalculos {
 		//testList.add(ativoTest);
 		//testList.add(ativoTest2);
 		
-		//testCalc.calculaEmissao(0.5317, testList);
+		//testCalc.calculaEmissao(0.0789, testList);
 		
-		testCalc.calculaEmissao(531.7, 1);
+		//testCalc.calculaConsumoEnergia(1);
+		testCalc.calculaEmissao(0.0789, 1);
+		//testCalc.calculaEmissao(0.0789, 1);
 				
 	}
 

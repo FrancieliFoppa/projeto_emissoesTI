@@ -73,8 +73,8 @@ public class AtivoTI_Controller {
 					
 					listaAtivos.add(ativoTI);
 				
-					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + "Modelo: " + ativoTI.getModelo() + "Categoria: " + ativoTI.getCategoria() +
-							" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + "Dias consumo: " + ativoTI.getDiasConsumo());
+					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Modelo: " + ativoTI.getModelo() + " Categoria: " + ativoTI.getCategoria() +
+							" Consumo: " + ativoTI.getConsumoEnergia() + " Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + " Dias consumo: " + ativoTI.getDiasConsumo());
 								
 			}	
 			//fecha o Scanner

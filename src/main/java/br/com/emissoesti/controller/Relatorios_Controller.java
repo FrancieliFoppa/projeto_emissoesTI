@@ -2,6 +2,7 @@ package br.com.emissoesti.controller;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -38,7 +39,13 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioAtivos(ArrayList<AtivoTI> listaDeAtivos){ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioAtivos(int idUsuario) throws SQLException{ //alterar para buscra no banco pelo id_usuario
+		
+		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
+		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
+		
+		//chama o método que busa os dados no banco
+		listaDeAtivos = ativoDAO.listaAtivoInfGerais(idUsuario);
 		
 		//cria o documento vazio
 		Document relatorioAtivos = new Document();
@@ -48,7 +55,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioAtivos, new FileOutputStream(path + "\\testePDFtable1.pdf"));
+			PdfWriter.getInstance(relatorioAtivos, new FileOutputStream(path + "\\relatorioAtivos_user1.pdf"));
 			
 			//abri o docuemnto
 			relatorioAtivos.open();
@@ -72,7 +79,7 @@ public class Relatorios_Controller extends Relatorios{
 			relatorioAtivos.add(new Paragraph("Relatório de ativos de TI:"));
 			
 			//cria uma tabela
-			PdfPTable table = new PdfPTable(8);
+			PdfPTable table = new PdfPTable(7);
 			table.setSpacingBefore(25);
 			//table.setSpacingAfter(15);
 				
@@ -159,7 +166,13 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioEmissaoAtivos(ArrayList<AtivoTI> listaDeAtivos){ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioEmissaoAtivos(int idUsuario) throws SQLException{ //alterar para buscra no banco pelo id_usuario
+		
+		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
+		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
+		
+		//chama o método que busa os dados no banco
+		listaDeAtivos = ativoDAO.listaAtivoInfEmissao(idUsuario);
 		
 		//cria o documento vazio
 		Document relatorioEmissao = new Document();
@@ -169,7 +182,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream(path + "\\testePDFtable1.pdf"));
+			PdfWriter.getInstance(relatorioEmissao, new FileOutputStream(path + "\\relatorioEmissao_user1.pdf"));
 			
 			//abri o docuemnto
 			relatorioEmissao.open();
@@ -190,7 +203,7 @@ public class Relatorios_Controller extends Relatorios{
 			relatorioEmissao.add(logo);
 			
 			//escreve paragrafo
-			relatorioEmissao.add(new Paragraph("Relatório de ativos de TI:"));
+			relatorioEmissao.add(new Paragraph("Relatório de emissões de C02 dos ativos:"));
 			
 			//cria uma tabela
 			PdfPTable table = new PdfPTable(8);
@@ -287,7 +300,13 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioConsumoAtivos(ArrayList<AtivoTI> listaDeAtivos){ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioConsumoAtivos(int idUsuario) throws SQLException{ //alterar para buscra no banco pelo id_usuario
+		
+		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
+		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
+		
+		//chama o método que busa os dados no banco
+		listaDeAtivos = ativoDAO.listaAtivoInfConsumo(idUsuario);
 		
 		//cria o documento vazio
 		Document relatorioConsumo = new Document();
@@ -297,7 +316,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioConsumo, new FileOutputStream(path + "\\testePDFtable1.pdf"));
+			PdfWriter.getInstance(relatorioConsumo, new FileOutputStream(path + "\\relatorioConsumo_user1.pdf"));
 			
 			//abri o docuemnto
 			relatorioConsumo.open();
@@ -318,7 +337,7 @@ public class Relatorios_Controller extends Relatorios{
 			relatorioConsumo.add(logo);
 			
 			//escreve paragrafo
-			relatorioConsumo.add(new Paragraph("Relatório de ativos de TI:"));
+			relatorioConsumo.add(new Paragraph("Relatório de consumo de energia dos ativos:"));
 			
 			//cria uma tabela
 			PdfPTable table = new PdfPTable(8);
