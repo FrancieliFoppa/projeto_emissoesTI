@@ -37,6 +37,16 @@
 			<version>5.5.10</version>
 		</dependency>
 		<dependency>
+			<artifactId>jfreechart</artifactId>
+			<groupId>org.jfree</groupId>
+			<version>1.0.19</version>
+		</dependency>
+		<dependency>
+			<artifactId>jcommon</artifactId>
+			<groupId>org.jfree</groupId>
+			<version>1.0.23</version>
+		</dependency>
+		<dependency>
 			<groupId>xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.2.2</version>
