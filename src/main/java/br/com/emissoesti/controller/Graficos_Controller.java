@@ -1,5 +1,6 @@
 package br.com.emissoesti.controller;
 
+import javax.swing.JFrame;
 import javax.ws.rs.Path;
 
 import org.jfree.chart.ChartFactory;
@@ -11,7 +12,7 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.util.Rotation;
 
 @Path("/graficos")
-public class Graficos_Controller {
+public class Graficos_Controller extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -32,11 +33,13 @@ public class Graficos_Controller {
 		chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
 		// adiciona a nossa aplicação
-		//setContentPane(chartPanel);
+		setContentPane(chartPanel);
+		
+		this.pack();
 
 	}
 
-	/**
+	/*
 	 * Cria um conjunto de dados de amostra 
 	 */
 
@@ -49,7 +52,7 @@ public class Graficos_Controller {
 
 	}
 
-	/**
+	/*
 	 * Cria um gráfico 
 	 */
 
