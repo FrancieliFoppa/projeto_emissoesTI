@@ -3,7 +3,10 @@ package br.com.emissoesti.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -82,6 +85,10 @@ public class Relatorios_Controller extends Relatorios{
 			PdfPTable table = new PdfPTable(7);
 			table.setSpacingBefore(25);
 			//table.setSpacingAfter(15);
+			
+			//arredondamento dos números
+			NumberFormat decimal = DecimalFormat.getInstance(Locale.ENGLISH);
+			decimal.setMinimumFractionDigits(5);
 				
 			PdfPCell cell;
 				//insere o cabeçalho
@@ -105,11 +112,11 @@ public class Relatorios_Controller extends Relatorios{
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo de energia", f));
+	        		cell = new PdfPCell(new Phrase("Consumo de energia (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Horas de consumo", f));
+	        		cell = new PdfPCell(new Phrase("Horas de consumo (hrs)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
@@ -135,13 +142,13 @@ public class Relatorios_Controller extends Relatorios{
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getCategoria(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergia(), f2));//colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergia()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getHorasConsumoDiario(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getHorasConsumoDiario()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getDiasConsumo(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getDiasConsumo()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
            
@@ -166,7 +173,7 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioEmissaoAtivos(int idUsuario) throws SQLException{ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioEmissaoAtivos(int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{ //alterar para buscra no banco pelo id_usuario
 		
 		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
 		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
@@ -208,13 +215,21 @@ public class Relatorios_Controller extends Relatorios{
 			//cria uma tabela
 			PdfPTable table = new PdfPTable(8);
 			table.setSpacingBefore(25);
-			//table.setSpacingAfter(15);
-				
+			table.setTotalWidth(450);
+			table.setLockedWidth(true);
+			
+			//formatação da fonte do cabeçalho e corpo ta tabela
+			Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
+    		Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
+    		Font f3 = new Font(FontFamily.COURIER, 8, Font.BOLD, GrayColor.GRAYBLACK);
 			PdfPCell cell;
+			
+			//arredondamento dos números
+			NumberFormat decimal = DecimalFormat.getInstance(Locale.ENGLISH);
+			decimal.setMinimumFractionDigits(5);
+					
 				//insere o cabeçalho
 	        	for(int i = 0; i < 1; i++){
-	        		
-	        		Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
 	        		
 	        		cell = new PdfPCell(new Phrase("Hostname", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
@@ -232,27 +247,25 @@ public class Relatorios_Controller extends Relatorios{
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² diária", f));
+	        		cell = new PdfPCell(new Phrase("Emissão diária (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² semanal", f));
+	        		cell = new PdfPCell(new Phrase("Emissão semanal (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² mensal", f));
+	        		cell = new PdfPCell(new Phrase("Emissão mensal (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² anual", f));
+	        		cell = new PdfPCell(new Phrase("Emissão anual (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
 	        		
 	        		//insere os dados da lista de ativos
 	        		for(int j = 0; j<= (listaDeAtivos.size()-1); j++){
-			        	
-	        			Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
 	        			
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getHostName(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -266,23 +279,62 @@ public class Relatorios_Controller extends Relatorios{
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getCategoria(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCODiario(), f2));//colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCODiario()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOSemanal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOSemanal()), f2)); 
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOMensal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOMensal()), f2)); 
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOAnual(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOAnual()), f2)); 
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			            table.addCell(cell);
-           
-		        	}
+			            table.addCell(cell);   
+			            
+		        	} 
+	        		
+	        		Calculadora_Controller calcTotal = new Calculadora_Controller();
+	        		
+	        		//insere os totais na tabela
+	        		cell = new PdfPCell(new Phrase("", f2));
+	        		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+	        		table.addCell(cell);
+	        		cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase("TOTAL", f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoDiarioTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoSemanalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoMensalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoAnualTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+	        		
 	        		//adiciona a tabela ao documento pdf
 	        		relatorioEmissao.add(table);
-	        	}
+	        		
+	        	}							
 	        	
 		}catch(DocumentException de){
 			System.out.println("Erro ao abrir documento");
@@ -300,7 +352,7 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioConsumoAtivos(int idUsuario) throws SQLException{ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioConsumoAtivos(int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{ //alterar para buscra no banco pelo id_usuario
 		
 		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
 		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
@@ -342,13 +394,22 @@ public class Relatorios_Controller extends Relatorios{
 			//cria uma tabela
 			PdfPTable table = new PdfPTable(8);
 			table.setSpacingBefore(25);
+			table.setTotalWidth(500);
+			table.setLockedWidth(true);
 			//table.setSpacingAfter(15);
+			
+			//formatação da fonte do cabeçalho e corpo ta tabela
+    		Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
+    		Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
+    		Font f3 = new Font(FontFamily.COURIER, 8, Font.BOLD, GrayColor.GRAYBLACK);
+    		
+    		//arredondamento dos números
+			NumberFormat decimal = DecimalFormat.getInstance(Locale.ENGLISH);
+			decimal.setMinimumFractionDigits(5);
 				
 			PdfPCell cell;
 				//insere o cabeçalho
 	        	for(int i = 0; i < 1; i++){
-	        		
-	        		Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
 	        		
 	        		cell = new PdfPCell(new Phrase("Hostname", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
@@ -366,19 +427,19 @@ public class Relatorios_Controller extends Relatorios{
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia diário", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia diário (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia semanal", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia semanal (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia mensal", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia mensal (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia anual", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia anual (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
@@ -386,8 +447,6 @@ public class Relatorios_Controller extends Relatorios{
 	        		//insere os dados da lista de ativos
 	        		for(int j = 0; j<= (listaDeAtivos.size()-1); j++){
 			        	
-	        			Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
-	        			
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getHostName(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
@@ -400,20 +459,57 @@ public class Relatorios_Controller extends Relatorios{
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getCategoria(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaDiario(), f2));//colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaDiario()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaSemanal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaSemanal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaMensal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaMensal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaAnual(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaAnual()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-           
+           		       
 		        	}
+	        		
+	        		Calculadora_Controller calcTotal = new Calculadora_Controller();
+	        		
+	        		cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);        			
+        			cell = new PdfPCell(new Phrase("TOTAL", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoDiarioTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoSemanalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoMensalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoAnualTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+	        		
 	        		//adiciona a tabela ao documento pdf
 	        		relatorioConsumo.add(table);
 	        	}
@@ -434,7 +530,13 @@ public class Relatorios_Controller extends Relatorios{
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces("application/pdf")
-	public Document relatorioEmissaoCOConsumoEnergiaAtivos(ArrayList<AtivoTI> listaDeAtivos){ //alterar para buscra no banco pelo id_usuario
+	public Document relatorioEmissaoCOConsumoEnergiaAtivos(int idUsuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{ //alterar para buscra no banco pelo id_usuario
+		
+		ArrayList<AtivoTI> listaDeAtivos = new ArrayList<AtivoTI>();
+		AtivoTI_DAO ativoDAO = new AtivoTI_DAO();
+		
+		//chama o método que busa os dados no banco
+		listaDeAtivos = ativoDAO.listaAtivoInfEmissao(idUsuario);
 		
 		//cria o documento vazio
 		Document relatorioEmissaoCOConsumoEnergia = new Document();
@@ -444,7 +546,7 @@ public class Relatorios_Controller extends Relatorios{
 		
 		try{
 			//cria uma instacia do documento com nome e diretorio destino
-			PdfWriter.getInstance(relatorioEmissaoCOConsumoEnergia, new FileOutputStream(path + "\\testePDFtable1.pdf"));
+			PdfWriter.getInstance(relatorioEmissaoCOConsumoEnergia, new FileOutputStream(path + "\\ralatorioEmissao_Consumouser1.pdf"));
 			
 			//abri o docuemnto
 			relatorioEmissaoCOConsumoEnergia.open();
@@ -468,15 +570,24 @@ public class Relatorios_Controller extends Relatorios{
 			relatorioEmissaoCOConsumoEnergia.add(new Paragraph("Relatório de ativos de TI:"));
 			
 			//cria uma tabela
-			PdfPTable table = new PdfPTable(8);
+			PdfPTable table = new PdfPTable(11);
 			table.setSpacingBefore(25);
+			table.setTotalWidth(580);
+			table.setLockedWidth(true);
 			//table.setSpacingAfter(15);
+			
+			//formatação da fonte do cabeçalho e corpo ta tabela
+    		Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
+			Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
+			Font f3 = new Font(FontFamily.COURIER, 8, Font.BOLD, GrayColor.GRAYBLACK);
+			
+			//arredondamento dos números
+			NumberFormat decimal = DecimalFormat.getInstance(Locale.ENGLISH);
+			decimal.setMinimumFractionDigits(5);
 				
 			PdfPCell cell;
 				//insere o cabeçalho
 	        	for(int i = 0; i < 1; i++){
-	        		
-	        		Font f = new Font(FontFamily.HELVETICA, 8, Font.BOLD, GrayColor.GRAYWHITE);
 	        		
 	        		cell = new PdfPCell(new Phrase("Hostname", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
@@ -490,35 +601,35 @@ public class Relatorios_Controller extends Relatorios{
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia diário", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia diário (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² diária", f));
+	        		cell = new PdfPCell(new Phrase("Emissão diária (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia semanal", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia semanal (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² semanal", f));
+	        		cell = new PdfPCell(new Phrase("Emissão semanal (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia mensal", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia mensal (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Emissão CO² mensal", f));
+	        		cell = new PdfPCell(new Phrase("Emissão mensal (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
-	        		cell = new PdfPCell(new Phrase("Consumo energia anual", f));
+	        		cell = new PdfPCell(new Phrase("Consumo energia anual (MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);        		
-	        		cell = new PdfPCell(new Phrase("Emissão CO² anual", f));
+	        		cell = new PdfPCell(new Phrase("Emissão anual (tCO2/MWh)", f));
 	        		cell.setBackgroundColor(GrayColor.GRAY);
 	                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        		table.addCell(cell);
@@ -526,7 +637,6 @@ public class Relatorios_Controller extends Relatorios{
 	        		//insere os dados da lista de ativos
 	        		for(int j = 0; j<= (listaDeAtivos.size()-1); j++){
 			        	
-	        			Font f2 = new Font(FontFamily.COURIER, 8, Font.NORMAL, GrayColor.GRAYBLACK);
 	        			
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getHostName(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -537,35 +647,75 @@ public class Relatorios_Controller extends Relatorios{
 			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getModelo(), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase(listaDeAtivos.get(j).getCategoria(), f2));
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaDiario()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaDiario(), f2));//colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCODiario()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCODiario(), f2));//colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaSemanal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaSemanal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOSemanal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOSemanal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaMensal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaMensal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOMensal()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOMensal(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getConsumoEnergiaAnual()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getConsumoEnergiaAnual(), f2)); //colocar a unidade
-			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			            table.addCell(cell);
-			            cell = new PdfPCell(new Phrase("" + listaDeAtivos.get(j).getValorEmissaoCOAnual(), f2)); //colocar a unidade
+			            cell = new PdfPCell(new Phrase(decimal.format(listaDeAtivos.get(j).getValorEmissaoCOAnual()), f2));
 			            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			            table.addCell(cell);
            
 		        	}
+	        		
+	        		Calculadora_Controller calcTotal = new Calculadora_Controller();
+	        		
+	        		cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase("", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        		cell.disableBorderSide(PdfPCell.BOTTOM);
+        			cell.disableBorderSide(PdfPCell.LEFT);
+        			cell.disableBorderSide(PdfPCell.RIGHT);
+        			table.addCell(cell);
+	        		cell = new PdfPCell(new Phrase("TOTAL", f2));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoDiarioTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoDiarioTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoSemanalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoSemanalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoMensalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoMensalTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaConsumoAnualTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);    			
+        			cell = new PdfPCell(new Phrase(decimal.format(calcTotal.calculaEmissaoAnualTotal(idUsuario)), f3));
+        			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        			table.addCell(cell);
+	        		
 	        		//adiciona a tabela ao documento pdf
 	        		relatorioEmissaoCOConsumoEnergia.add(table);
 	        	}
