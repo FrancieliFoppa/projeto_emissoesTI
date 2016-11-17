@@ -1,15 +1,14 @@
 package br.com.emissoesti.model;
 
-import java.beans.Transient;
 //import javax.persistence.*;
 
-//@Entity(name = "usuario")
+//@Entity//(name = "usuario")
 public class Usuario {
 
-   // @Id
-   // @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
-   // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
-    private int codigo;
+   //@Id
+   //@SequenceGenerator(initialValue = 1, allocationSize = 1, name = "geradorId", sequenceName = "usuario_codigo_seq")
+   //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "geradorId")
+    private int id;
 
     private String nome;
   //  @Column(name = "email", unique = true)
@@ -37,7 +36,7 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.role = role;
-        this.codigo = codigo;
+        this.id = codigo;
     }
 
     public Usuario(String nome, String email, String senha, int codigo) {
@@ -45,7 +44,7 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.codigo = codigo;
+        this.id = codigo;
     }
 
     public Usuario(String email, String senha, Role role) {
@@ -59,11 +58,11 @@ public class Usuario {
 
 	//métodos Geters e Seters
     public int getCodigo() {
-    	return codigo;
+    	return id;
     }
 
     public void setCodigo(int codigo) {
-        this.codigo = codigo;
+        this.id = codigo;
     }
 
     public String getNome() {

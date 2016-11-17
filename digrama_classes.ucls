@@ -46,31 +46,21 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.com.emissoesti.controller.OlaMundoController" project="EmissoesTI" 
-    file="/EmissoesTI/src/main/java/br/com/emissoesti/controller/OlaMundoController.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1077" y="234"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="7" language="java" name="br.com.emissoesti.DAO" project="EmissoesTI" 
+  <package id="6" language="java" name="br.com.emissoesti.DAO" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/DAO" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="227" width="964" x="194" y="334"/>    
+    <position height="237" width="964" x="194" y="334"/>    
     <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="8" language="java" name="br.com.emissoesti.DAO.AtivoTI_DAO" project="EmissoesTI" 
+  <class id="7" language="java" name="br.com.emissoesti.DAO.AtivoTI_DAO" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/DAO/AtivoTI_DAO.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="361" y="462"/>    
+    <position height="-1" width="-1" x="361" y="469"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="br.com.emissoesti.DAO.Calculadora_DAO" project="EmissoesTI" 
+  <class id="8" language="java" name="br.com.emissoesti.DAO.Calculadora_DAO" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/DAO/Calculadora_DAO.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="662" y="477"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -79,86 +69,86 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="10" language="java" name="br.com.emissoesti.model" project="EmissoesTI" 
+  <package id="9" language="java" name="br.com.emissoesti.model" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="774" width="1244" x="11" y="582"/>    
+    <position height="1051" width="1249" x="11" y="582"/>    
     <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="11" language="java" name="br.com.emissoesti.model.AtivoTI" project="EmissoesTI" 
+  <class id="10" language="java" name="br.com.emissoesti.model.AtivoTI" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/AtivoTI.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="174" y="1115"/>    
+    <position height="-1" width="-1" x="338" y="1144"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="br.com.emissoesti.model.Calculadora" project="EmissoesTI" 
+  <class id="11" language="java" name="br.com.emissoesti.model.Calculadora" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/Calculadora.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="494" y="825"/>    
+    <position height="-1" width="-1" x="661" y="885"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="br.com.emissoesti.model.CalculadoraExpress" project="EmissoesTI" 
+  <class id="12" language="java" name="br.com.emissoesti.model.CalculadoraExpress" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/CalculadoraExpress.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="820" y="766"/>    
+    <position height="-1" width="-1" x="1005" y="829"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="br.com.emissoesti.model.Email" project="EmissoesTI" 
+  <class id="13" language="java" name="br.com.emissoesti.model.Email" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/Email.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="526" y="1145"/>    
+    <position height="-1" width="-1" x="688" y="1449"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <enumeration id="15" language="java" name="br.com.emissoesti.model.Role" project="EmissoesTI" 
+  <enumeration id="14" language="java" name="br.com.emissoesti.model.Role" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/Role.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="814" y="1107"/>    
+    <position height="-1" width="-1" x="618" y="1210"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </enumeration>  
-  <class id="16" language="java" name="br.com.emissoesti.model.Usuario" project="EmissoesTI" 
+  <class id="15" language="java" name="br.com.emissoesti.model.Usuario" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/Usuario.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1072" y="882"/>    
+    <position height="-1" width="-1" x="1006" y="1210"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="br.com.emissoesti.model.Relatorios" project="EmissoesTI" 
+  <class id="16" language="java" name="br.com.emissoesti.model.Relatorios" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/model/Relatorios.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="169" y="769"/>    
+    <position height="-1" width="-1" x="173" y="690"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="br.com.emissoesti.controller.Relatorios_Controller" project="EmissoesTI" 
+  <class id="17" language="java" name="br.com.emissoesti.controller.Relatorios_Controller" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/controller/Relatorios_Controller.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="183" y="58"/>    
+    <position height="-1" width="-1" x="171" y="56"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="br.com.emissoesti.DAO.ConnectionBD" project="EmissoesTI" 
+  <class id="18" language="java" name="br.com.emissoesti.DAO.ConnectionBD" project="EmissoesTI" 
     file="/EmissoesTI/src/main/java/br/com/emissoesti/DAO/ConnectionBD.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="99" width="174" x="842" y="408"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -167,64 +157,56 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="20">    
+  <association id="19">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="21" name="ativoDAO">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="20" name="ativoDAO">        
+        <position height="0" width="0" x="0" y="7"/>      
       </attribute>      
-      <multiplicity id="22" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="7"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="17"/>  
+  <association id="22">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="23" name="role">        
+        <position height="0" width="0" x="-196" y="103"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-196" y="103"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="26" name="calc">        
+        <position height="0" width="0" x="127" y="57"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="127" y="57"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="28">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="16"/>  
   </generalization>  
-  <association id="24">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="25" name="listaDeAtivos">        
-        <position height="0" width="0" x="0" y="291"/>      
+  <association id="29">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="30" name="listaDeAtivos">        
+        <position height="0" width="0" x="170" y="337"/>      
       </attribute>      
-      <multiplicity id="26" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="291"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="170" y="337"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="27">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="28" name="listaDeAtivos"/>      
-      <multiplicity id="29" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="30">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="31" name="calc">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="32" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="33">    
-    <end type="SOURCE" refId="16" navigable="false">      
-      <attribute id="34" name="role">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="35" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

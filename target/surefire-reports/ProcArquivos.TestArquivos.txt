@@ -1,0 +1,17 @@
+-------------------------------------------------------------------------------
+Test set: ProcArquivos.TestArquivos
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.095 sec <<< FAILURE!
+test(ProcArquivos.TestArquivos)  Time elapsed: 1.093 sec  <<< ERROR!
+java.sql.SQLException: Illegal operation on empty result set.
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:959)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:898)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:887)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:862)
+	at com.mysql.jdbc.ResultSetImpl.checkRowPos(ResultSetImpl.java:790)
+	at com.mysql.jdbc.ResultSetImpl.getInt(ResultSetImpl.java:2469)
+	at br.com.emissoesti.DAO.AtivoTI_DAO.adiciona(AtivoTI_DAO.java:53)
+	at br.com.emissoesti.controller.AtivoTI_Controller.registra(AtivoTI_Controller.java:214)
+	at br.com.emissoesti.controller.AtivoTI_Controller.processaCSV(AtivoTI_Controller.java:90)
+	at ProcArquivos.TestArquivos.test(TestArquivos.java:17)
+

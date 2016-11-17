@@ -1,34 +1,42 @@
 package br.com.emissoesti.controller;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import br.com.emissoesti.DAO.AtivoTI_DAO;
 import br.com.emissoesti.model.AtivoTI;
 
-@ControllerAdvice
+@Path("/ativoti")
 public class AtivoTI_Controller {
 	
 	private AtivoTI_DAO ativoDAO;
 
 	public AtivoTI_Controller() {
-		// TODO Auto-generated constructor stub
+		ativoDAO = new AtivoTI_DAO();
 	}
 	
 	/*
 	 * método lê as linhas de um arquivo CSV
 	 * layout do arquivo -> hostname;fabricante;consumoEnergia;custoEnergia
 	 */
-	@RequestMapping //(chamar a view)
-	public void processaCSV(String path){
-
-		//instacia o ativoTI
-		AtivoTI ativoTI = new AtivoTI();
+	//---->(chamar a view)
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public ArrayList<AtivoTI> processaCSV(String path, int id_usuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		
+		//instancia uma lista de ativos
+		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
 		
 		//cria variavel do tipo File
 		File arquivoCSV;
@@ -44,47 +52,98 @@ public class AtivoTI_Controller {
 			
 			//le cada linha do arquivo
 			while(leitor.hasNext()){
-
+				
+				//instancia o ativoTI
+				AtivoTI ativoTI = new AtivoTI();
+				
+				//próxima linha do arquivo
 				linhasArquivo = leitor.nextLine();
+				
 				//salva cada campo separado por ponto e virgula em um array
 				String valores[] = linhasArquivo.split(";");
 					
 					//atribui os valores veindos do arquivo para os atributos do objeto ativoTI
 					ativoTI.setHostName(valores[0]);
 					ativoTI.setFabricante(valores[1]);
-					ativoTI.setConsumoEnergia(Double.parseDouble(valores[2]));
-				
-					System.out.println(" nome: " + ativoTI.getHostName() +" Frabricante: " +  ativoTI.getFabricante() + " Conumo: " + ativoTI.getConsumoEnergia());
+					ativoTI.setModelo(valores[2]);
+					ativoTI.setCategoria(valores[3]);
+					ativoTI.setConsumoEnergia(Double.parseDouble(valores[4]));
+					ativoTI.sethorasConsumoDiario(Double.parseDouble(valores[5]));
+					ativoTI.setDiasConsumo(Integer.parseInt(valores[6]));
+					ativoTI.setTipoConsumo(valores[7]);
 					
-				//this.registra(ativoTI);
+					listaAtivos.add(ativoTI);
 				
+					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Modelo: " + ativoTI.getModelo() + " Categoria: " + ativoTI.getCategoria() +
+							" Consumo: " + ativoTI.getConsumoEnergia() + " Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + " Dias consumo: " + ativoTI.getDiasConsumo() + " Tipo consumo: " + ativoTI.getTipoConsumo());
+								
 			}	
 			//fecha o Scanner
 			leitor.close();
 			
 		}catch(java.io.FileNotFoundException x){
          System.out.println("O arquivo não existe");
-        }catch(java.io.IOException es){
-         System.out.println("Erro ao abrir o arquivo");
         }
+		//registrar no banco
+		this.registra(listaAtivos, id_usuario);
+		
+		return listaAtivos;
 	}
 	
-	
-	//registra um ativo de TI
-	@RequestMapping("/registraAtivoTI")
-	public String registra(@Validated AtivoTI ativoTI, BindingResult validacao){
-		System.out.println(ativoTI.getHostName());
-		if (validacao.hasErrors()) {
-			return "ativo_novo";
-		}else{
-			this.ativoDAO.adiciona(ativoTI);
-			return "ativo_sucesso";
+	/*
+	 * método lê as linhas de um arquivo XML
+	 * layout do arquivo -> <ativos>
+			<ativoTI>
+				<hostName></hostName>
+				<fabricante></fabricante>
+				<consumoEnergia></consumoEnergia>
+			</ativoTI>
+	 */
+	 //----->(chamar a view)
+	@POST
+	@Consumes(MediaType.APPLICATION_ATOM_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public ArrayList<AtivoTI> processaXML(String path, int id_usuario) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException{
+		
+		ArrayList<AtivoTI> listaAtivos = new ArrayList<AtivoTI>();
+		
+		try{
+			FileReader reader = new FileReader(path);
+			//instacia um obejto do tipo XStrem
+			XStream xstream = new XStream(new DomDriver());
+			//procura a tag ativoTI
+			xstream.alias("ativoTI", AtivoTI.class);
+			//atribui os atributos da tag ao objeto ativoTI
+			AtivoTI ativoTI = (AtivoTI) xstream.fromXML(reader);
+			//adiciona o obejto a lista
+			listaAtivos.add(ativoTI);
+			
+			System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + "Modelo: " + ativoTI.getModelo() + "Categoria: " + ativoTI.getCategoria() +
+					" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario()  + "Dias consumo: " + ativoTI.getDiasConsumo()  + ativoTI.getDiasConsumo() + " Tipo consumo: " + ativoTI.getTipoConsumo());
+			
+			registra(listaAtivos, id_usuario);
+			
+		}catch(IOException io){
+			System.out.println("Erro ao abrir XML");
 		}
+		return listaAtivos;
 	}
 
-	//sobrecarga do método registra
-	private String registra(AtivoTI ativoTI){
-		this.ativoDAO.adiciona(ativoTI);
+	//chama o método que faz o insert no banco 
+	private String registra(ArrayList<AtivoTI> ativoTIList, int id_usuario) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		this.ativoDAO.insereAtivo(ativoTIList, id_usuario);
 		return "ativo_sucesso";
+	}
+	
+	//método busca o ativo com maior consumo de energia
+	//("/maiorAtivoTI")
+	public AtivoTI buscaAtivoMaisConsumo(){
+		return this.ativoDAO.retornaMaxAtivo();
+	}
+
+	//método busca o ativo com menor consumo de energia
+	//("/maiorAtivoTI")
+	public AtivoTI buscaAtivoMenosConsumo(){
+		return this.ativoDAO.retornaMinAtivo();
 	}
 }
