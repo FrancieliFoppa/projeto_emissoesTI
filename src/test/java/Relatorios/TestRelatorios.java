@@ -16,7 +16,7 @@ public class TestRelatorios {
 		//testRelatorio.relatorioAtivosConsumoEnergia(testList);	
 		//testRelatorio.relatorioAtivos(1);
 		//testRelatorio.relatorioConsumoAtivos(1);
-		testRelatorio.relatorioEmissaoCOConsumoEnergiaAtivos(1);
+		testRelatorio.relatorioEmissaoCOConsumoEnergiaAtivos(2);
 		
 		//testRelatorio.relatorioPropostasResultados();
 	}

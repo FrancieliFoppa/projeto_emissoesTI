@@ -58,7 +58,7 @@ public class AtivoTI_DAO {
 		ResultSet res = null;	
 	
 		String sql = "select id_ativo_ti, nome_ativo, fabricante_ativo, modelo_ativo, categoria_ativo, "
-				+ "consumo_energia_diario, consumo_energia_semanal, consumo_energia_mensal, consumo_energia_anual from ativo_ti where id_usuario = " + idUsuario;
+				+ "consumo_energia_diario, consumo_energia_semanal, consumo_energia_mensal, consumo_energia_anual, tipo_consumo from ativo_ti where id_usuario = " + idUsuario;
 		PreparedStatement stmt;
 		
 		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
@@ -79,6 +79,7 @@ public class AtivoTI_DAO {
 					itemAtivo.setConsumoEnergiaSemanal(res.getDouble(7));
 					itemAtivo.setConsumoEnergiaMensal(res.getDouble(8));
 					itemAtivo.setConsumoEnergiaAnual(res.getDouble(9));
+					itemAtivo.setTipoConsumo(res.getString(10));
 					ativoList.add(itemAtivo);
 				}
 			
@@ -94,7 +95,7 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 		ResultSet res = null;	
 	
 		String sql = "select id_ativo_ti, nome_ativo, fabricante_ativo, modelo_ativo, categoria_ativo, "
-				+ "emissao_ativo_diario, emissao_ativo_semanal, emissao_ativo_mensal, emissao_ativo_anual from ativo_ti where id_usuario = " + idUsuario;
+				+ "emissao_ativo_diario, emissao_ativo_semanal, emissao_ativo_mensal, emissao_ativo_anual, tipo_consumo from ativo_ti where id_usuario = " + idUsuario;
 		PreparedStatement stmt;
 		
 		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
@@ -115,6 +116,7 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 					itemAtivo.setValorEmissaoCOSemanal(res.getDouble(7));
 					itemAtivo.setValorEmissaoCOMensal(res.getDouble(8));
 					itemAtivo.setValorEmissaoCOAnual(res.getDouble(9));
+					itemAtivo.setTipoConsumo(res.getString(10));
 					ativoList.add(itemAtivo);
 				}
 			
@@ -130,7 +132,7 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 		ResultSet res = null;	
 	
 		String sql = "select nome_ativo, fabricante_ativo, modelo_ativo, categoria_ativo, consumo_energia_ativo, "
-				+ "horas_consumo_diario, dias_consumo from ativo_ti where id_usuario = " + idUsuario;
+				+ "horas_consumo_diario, dias_consumo, tipo_consumo from ativo_ti where id_usuario = " + idUsuario;
 		PreparedStatement stmt;
 		
 		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
@@ -149,17 +151,56 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 					itemAtivo.setConsumoEnergia(res.getDouble(5));
 					itemAtivo.sethorasConsumoDiario(res.getDouble(6));
 					itemAtivo.setDiasConsumo(res.getInt(7));
+					itemAtivo.setTipoConsumo(res.getString(8));
 					ativoList.add(itemAtivo);
 				}
-			
-				System.out.println(ativoList.get(1).getHorasConsumoDiario());
-				
+							
 			}catch (SQLException e){
 				throw new RuntimeException(e);
 			}
 
 			return ativoList;
 	}	
+	
+public ArrayList<AtivoTI> listaAtivoInfCompleta(int idUsuario) throws SQLException {
+		
+		ResultSet res = null;	
+	
+		String sql = "select nome_ativo, fabricante_ativo, modelo_ativo, consumo_energia_diario, "
+				+ "consumo_energia_semanal, consumo_energia_mensal, consumo_energia_anual, "
+				+ "emissao_ativo_diario, emissao_ativo_semanal, emissao_ativo_mensal, emissao_ativo_anual, tipo_consumo from ativo_ti where id_usuario = " + idUsuario;
+		PreparedStatement stmt;
+		
+		ArrayList<AtivoTI> ativoList = new ArrayList<AtivoTI>();
+		
+		try {
+				stmt = connection.prepareStatement(sql);
+				res = stmt.executeQuery();
+				
+				res.beforeFirst();
+				while(res.next()){ 
+					AtivoTI itemAtivo = new AtivoTI();					
+					itemAtivo.setHostName(res.getString(1));
+					itemAtivo.setFabricante(res.getString(2));
+					itemAtivo.setModelo(res.getString(3));
+					itemAtivo.setConsumoEnergiaDiario(res.getDouble(4));
+					itemAtivo.setConsumoEnergiaSemanal(res.getDouble(5));
+					itemAtivo.setConsumoEnergiaMensal(res.getDouble(6));
+					itemAtivo.setConsumoEnergiaAnual(res.getDouble(7));
+					itemAtivo.setvalorEmissaoCODiario(res.getDouble(8));
+					itemAtivo.setValorEmissaoCOSemanal(res.getDouble(9));
+					itemAtivo.setValorEmissaoCOMensal(res.getDouble(10));
+					itemAtivo.setValorEmissaoCOAnual(res.getDouble(11));
+					itemAtivo.setTipoConsumo(res.getString(12));
+					ativoList.add(itemAtivo);
+				}
+							
+			}catch (SQLException e){
+				throw new RuntimeException(e);
+			}
+
+			return ativoList;
+	}
 	
 	/*
 	 * Método insere no banco de dados MySql uma lista de objetos do tipo AtivoTI e seus respectivos atributos
@@ -169,7 +210,7 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 		try {	
 			
 			String sql = "insert into ativo_ti"
-					+ " (nome_ativo, fabricante_ativo, modelo_ativo, categoria_ativo, consumo_energia_ativo, horas_consumo_diario, dias_consumo, id_usuario)values (?,?,?,?,?,?,?,?)";
+					+ " (nome_ativo, fabricante_ativo, modelo_ativo, categoria_ativo, consumo_energia_ativo, horas_consumo_diario, dias_consumo, tipo_consumo, id_usuario)values (?,?,?,?,?,?,?,?,?)";
 			
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
@@ -182,7 +223,8 @@ public ArrayList<AtivoTI> listaAtivoInfEmissao(int idUsuario) throws SQLExceptio
 					stmt.setDouble(5, ativoList.get(i).getConsumoEnergia());
 					stmt.setDouble(6, ativoList.get(i).getHorasConsumoDiario());
 					stmt.setInt(7, ativoList.get(i).getDiasConsumo());
-					stmt.setInt(8, idUsuario);
+					stmt.setString(8, ativoList.get(i).getTipoConsumo());
+					stmt.setInt(9, idUsuario);
 				 	
 				 	stmt.execute();
 				

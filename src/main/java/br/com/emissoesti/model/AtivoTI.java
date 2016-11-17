@@ -19,6 +19,7 @@ public class AtivoTI {
 	private double custoEnergia;
 	private double horasConsumoDiario;
 	private int diasConsumo;
+	private String tipoConsumo;
 	
 	public AtivoTI() {}
 
@@ -198,4 +199,12 @@ public class AtivoTI {
 		this.diasConsumo = diasConsumo;
 	}
 
+	public String getTipoConsumo() {
+		return tipoConsumo;
+	}
+
+	public void setTipoConsumo(String tipoConsumo) {
+		this.tipoConsumo = tipoConsumo;
+	}
+	
 }

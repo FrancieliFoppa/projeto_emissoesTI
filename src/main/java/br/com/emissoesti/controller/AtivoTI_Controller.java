@@ -70,11 +70,12 @@ public class AtivoTI_Controller {
 					ativoTI.setConsumoEnergia(Double.parseDouble(valores[4]));
 					ativoTI.sethorasConsumoDiario(Double.parseDouble(valores[5]));
 					ativoTI.setDiasConsumo(Integer.parseInt(valores[6]));
+					ativoTI.setTipoConsumo(valores[7]);
 					
 					listaAtivos.add(ativoTI);
 				
 					System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + " Modelo: " + ativoTI.getModelo() + " Categoria: " + ativoTI.getCategoria() +
-							" Consumo: " + ativoTI.getConsumoEnergia() + " Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + " Dias consumo: " + ativoTI.getDiasConsumo());
+							" Consumo: " + ativoTI.getConsumoEnergia() + " Hrs Consumo: " + ativoTI.getHorasConsumoDiario() + " Dias consumo: " + ativoTI.getDiasConsumo() + " Tipo consumo: " + ativoTI.getTipoConsumo());
 								
 			}	
 			//fecha o Scanner
@@ -118,7 +119,7 @@ public class AtivoTI_Controller {
 			listaAtivos.add(ativoTI);
 			
 			System.out.println("Nome: " + ativoTI.getHostName() +" Fabricante: " +  ativoTI.getFabricante() + "Modelo: " + ativoTI.getModelo() + "Categoria: " + ativoTI.getCategoria() +
-					" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario()  + "Dias consumo: " + ativoTI.getDiasConsumo());
+					" Consumo: " + ativoTI.getConsumoEnergia() + "Hrs Consumo: " + ativoTI.getHorasConsumoDiario()  + "Dias consumo: " + ativoTI.getDiasConsumo()  + ativoTI.getDiasConsumo() + " Tipo consumo: " + ativoTI.getTipoConsumo());
 			
 			registra(listaAtivos, id_usuario);
 			

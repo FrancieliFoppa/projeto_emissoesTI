@@ -23,8 +23,8 @@ public class TestCalculos {
 		
 		//testCalc.calculaEmissao(0.0789, testList);
 		
-		//testCalc.calculaConsumoEnergia(1);
-		testCalc.calculaEmissao(0.0789, 1);
+		//testCalc.calculaConsumoEnergia(2);
+		testCalc.calculaEmissao(0.0789, 2);
 		//testCalc.calculaEmissao(0.0789, 1);
 				
 	}
